@@ -6,40 +6,64 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Абитуриентам</title>
     <link rel="stylesheet" href="css/styles.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Roboto:wght@400;500&display=swap"
+        rel="stylesheet">
 </head>
 
 <body>
     <header>
-        <img src="img/logo.png" alt="kakaschke" height="100">
-        <h1>Абитуриентам</h1>
-        <div class="navigation">
-            <a href="index.html">Главная</a>
-            <a href="faculties.html">Факультеты</a>
-            <a href="applicants.html">Абитуриентам</a>
-            <a href="research.html">Наука</a>
-            <a href="contacts.html">Контакты</a>
+        <div class="header-content">
+            <img src="img/logo.png" alt="Логотип УрГТУ" height="100">
+            <h1>Welcome to Uryupinsk!!!</h1>
+            <p>Наш квантовый компьютер знает, что двойное счастье – это когда его тут и там одновременно</p>
+
+            <div class="menu-toggle" id="mobile-menu">
+                <div class="burger-icon"></div>
+                <div class="burger-icon"></div>
+                <div class="burger-icon"></div>
+            </div>
+
+            <nav class="navigation">
+                <ul class="navbar">
+                    <li><a href="index.html">Главная</a></li>
+                    <li class="dropdown">
+                        <a href="faculties.html">Факультеты</a>
+                        <div class="dropdown-content">
+                            <a href="faculties.html">Факультет Параллельных Парадоксов</a>
+                            <a href="faculties.html">Факультет Трансцендентных Технологий</a>
+                            <a href="faculties.html">Факультет Анти-Эффективной Инженерии</a>
+                        </div>
+                    </li>
+                    <li><a href="applicants.html">Абитуриентам</a></li>
+                    <li><a href="research.html">Наука</a></li>
+                    <li><a href="contacts.html">Контакты</a></li>
+                </ul>
+            </nav>
         </div>
     </header>
 
 
-    <section>
-        <div class="content">
-            <h2>Как к нам попасть</h2>
-            <article>
-                <h3>Направление</h3>
-                <p>Выбор программы бакалавриата или магистратуры.</p>
-            </article>
-            <article>
-                <h3>ЕГЭ</h3>
-                <p>Нужно сдать экзамен ровно на минимальный порог - 84. Не больше и не меньше.</p>
-            </article>
-            <article>
-                <h3>Приёмная комиссия</h3>
-                <p>Телефон: <a href="tel:+14881337228">+1 488 133 72 28</a></p>
-                <p>Email: <a href="mailto:carpe.diem@memento.mori">carpe.diem@memento.mori</a></p>
-            </article>
+    <main>
+        <div class="content-wrapper">
+            <section class="content">
+                <h2>Как к нам попасть</h2>
+                <article>
+                    <h3>Направление</h3>
+                    <p>Выбор программы бакалавриата или магистратуры.</p>
+                </article>
+                <article>
+                    <h3>ЕГЭ</h3>
+                    <p>Нужно сдать экзамен ровно на минимальный порог - 84. Не больше и не меньше.</p>
+                </article>
+                <article>
+                    <h3>Приёмная комиссия</h3>
+                    <p>Телефон: <a href="tel:+14881337228">+1 488 133 72 28</a></p>
+                    <p>Email: <a href="mailto:carpe.diem@memento.mori">carpe.diem@memento.mori</a></p>
+                </article>
+            </section>
         </div>
-    </section>
+    </main>
 
     <footer>
         <div class="footer-content">
@@ -47,17 +71,21 @@
                 <h3>Контакты</h3>
                 <p>Телефон: <a href="tel:+14881337228">+1 488 133 72 28</a></p>
                 <p>Email: <a href="mailto:carpe.diem@memento.mori">carpe.diem@memento.mori</a></p>
+                <p>Время работы: Пн-Пт 9:00-18:00</p>
             </div>
             <div class="footer-section">
                 <h3>Адрес</h3>
                 <p>Пушкина, 228а (Колотушкина), Урюпинск, Волгоградская обл., 403115</p>
+                <p>Приемная комиссия: корпус 2, кабинет 101</p>
             </div>
             <div class="footer-section">
                 <h3>Социальные сети</h3>
                 <div class="social-icons">
-                    <a href="#"><img src="facebook.png" alt="Facebook"></a>
-                    <a href="#"><img src="twitter.png" alt="Twitter"></a>
-                    <a href="#"><img src="instagram.png" alt="Instagram"></a>
+                    <a href="#"><img src="https://static.xx.fbcdn.net/rsrc.php/yx/r/e9sqr8WnkCf.ico" alt="Facebook"></a>
+                    <a href="#"><img src="https://abs.twimg.com/responsive-web/client-web/icon-ios.77d25eba.png"
+                            alt="Twitter"></a>
+                    <a href="#"><img src="https://static.cdninstagram.com/rsrc.php/v4/yI/r/VsNE-OHk_8a.png"
+                            alt="Instagram"></a>
                 </div>
             </div>
         </div>
@@ -65,6 +93,8 @@
             <p>&copy; 2023 Урюпинский Государственный Технологический Университет (УрГТУ)</p>
         </div>
     </footer>
+
+    <script src="js/menu.js"></script>
 </body>
 
 </html>
