@@ -15,7 +15,7 @@
             crossorigin="anonymous"
         />
         <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet" />
-        <link rel="stylesheet" href="css/styles.css" />
+        <link href="css/styles.css" rel="stylesheet" />
     </head>
 
     <body>
@@ -107,6 +107,18 @@
                             <label for="newsContent" class="form-label">Содержание</label>
                             <textarea class="form-control" id="newsContent" rows="3" required></textarea>
                         </div>
+                        <div class="mb-3">
+                            <label for="newsImage" class="form-label">Изображение</label>
+                            <input type="file" class="form-control" id="newsImage" accept="image/*" />
+                            <div id="imagePreview" class="mt-2" style="display: none">
+                                <img
+                                    id="previewImg"
+                                    src="#"
+                                    alt="Предпросмотр"
+                                    style="max-width: 200px; max-height: 200px"
+                                />
+                            </div>
+                        </div>
                         <button type="submit" class="btn btn-primary">Добавить</button>
                     </form>
                 </section>
@@ -115,6 +127,7 @@
                     <div id="newsContainer">
                         <div class="card mb-3">
                             <div class="card-body">
+                                <img class="card-img-top" src="img/news/scibidi.jpg" alt="Предпросмотр" />
                                 <h3 class="card-title">Открытие первого туалета</h3>
                                 <p class="card-text">
                                     Открыт мужской туалет на 4 этаже 3 корпуса. Первый бак был разбит спустя 10 минут.
@@ -123,6 +136,7 @@
                         </div>
                         <div class="card mb-3">
                             <div class="card-body">
+                                <img class="card-img-top" src="img/news/thief.webp" alt="Предпросмотр" />
                                 <h3 class="card-title">День открытых дверей</h3>
                                 <p class="card-text">
                                     Сторож опять забыл закрыть университет. Украдено 2 компьютера (все) и пача
