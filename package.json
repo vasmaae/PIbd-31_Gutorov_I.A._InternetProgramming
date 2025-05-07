@@ -1,0 +1,35 @@
+{
+  "name": "pibd-23_gutorov_i.a._uryupinskuniversity",
+  "version": "1.0.0",
+  "description": "",
+  "scripts": {
+        "start": "vite",
+        "build": "vite build",
+        "serve": "http-server -p 3000 ./dist/",
+        "prod": "npm-run-all build serve",
+        "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0"
+    },
+  "repository": {
+    "type": "git",
+    "url": "https://git.is.ulstu.ru/vasmaae/PIbd-23_Gutorov_I.A._UryupinskUniversity"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "module",
+  "dependencies": {
+    "bootstrap": "^5.3.5",
+    "vite": "^6.3.3"
+  },
+  "devDependencies": {
+        "http-server": "14.1.1",
+        "vite": "6.2.0",
+        "npm-run-all": "4.1.5",
+        "eslint": "8.56.0",
+        "eslint-config-airbnb-base": "15.0.0",
+        "eslint-config-prettier": "10.0.2",
+        "eslint-plugin-import": "2.31.0",
+        "eslint-plugin-prettier": "5.2.3",
+        "eslint-plugin-html": "8.1.2"
+    }
+}
