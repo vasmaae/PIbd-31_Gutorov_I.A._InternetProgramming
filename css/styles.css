@@ -2,6 +2,11 @@
     background-color: #002366 !important;
 }
 
+.btn-primary {
+    background-color: #002366 !important;
+    font-family: "Roboto", sans-serif;
+}
+
 h1,
 h2,
 h3 {
