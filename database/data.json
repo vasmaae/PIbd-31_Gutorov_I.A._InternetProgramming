@@ -1,0 +1,48 @@
+{
+  "news": [
+    {
+      "id": "2c63b3aa-74c1-4a08-a530-f476f9840de4",
+      "title": "1",
+      "content": "1",
+      "categoryId": "1",
+      "authorId": "1",
+      "postDate": "2025-05-14T12:06:04.443Z"
+    },
+    {
+      "id": "17a03067-7488-4cf0-9389-de708c24a2b0",
+      "title": "2s",
+      "content": "2ss",
+      "categoryId": "1",
+      "authorId": "1",
+      "postDate": "2025-05-14T12:18:31.710Z"
+    },
+    {
+      "id": "8356247f-3630-4768-99eb-bb0077717186",
+      "title": "3)",
+      "content": "333",
+      "categoryId": "1",
+      "authorId": "1",
+      "postDate": "2025-05-14T12:18:38.887Z"
+    }
+  ],
+  "categories": [
+    {
+      "id": "1",
+      "name": "Кампус"
+    },
+    {
+      "id": "2",
+      "name": "Наука"
+    }
+  ],
+  "authors": [
+    {
+      "id": "1",
+      "name": "Иван Иванов"
+    },
+    {
+      "id": "2",
+      "name": "Мария Смирнова"
+    }
+  ]
+}
