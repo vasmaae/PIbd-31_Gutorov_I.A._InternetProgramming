@@ -1,6 +1,6 @@
-import NewsController from "../components/news/controller.js";
-import NewsModel from "../components/news/model.js";
-import NewsView from "../components/news/view.js";
+import NewsController from "../components/js-mvc-4/controller.js";
+import NewsModel from "../components/js-mvc-4/model.js";
+import NewsView from "../components/js-mvc-4/view.js";
 
 document.addEventListener("DOMContentLoaded", () => {
     const model = new NewsModel();
