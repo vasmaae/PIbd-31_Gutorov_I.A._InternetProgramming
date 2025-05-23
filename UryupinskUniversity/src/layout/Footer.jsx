@@ -1,6 +1,6 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const Footer = () => {
+export const Footer = () => {
     return (
         <footer className="bg-primary text-white py-4">
             <div className="container">
@@ -9,7 +9,7 @@ const Footer = () => {
                         <h3>Контакты</h3>
                         <p>
                             <i className="bi bi-telephone"></i> Телефон:{" "}
-                            <a href="tel:+14881337228" class="text-white">
+                            <a href="tel:+14881337228" className="text-white">
                                 +1 488 133 72 28
                             </a>
                         </p>

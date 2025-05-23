@@ -7,7 +7,7 @@ const NewsForm = ({ news, categories, authors, onSave, onCancel }) => {
         content: news.content || "",
         categoryId: news.categoryId || "",
         authorId: news.authorId || "",
-        postDate: new Date().toISOString()
+        postDate: new Date().toISOString(),
     });
 
     const handleChange = (e) => {
