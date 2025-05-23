@@ -1,84 +1,11 @@
-import { useEffect, useState } from "react";
-import NewsForm from "../components/News/NewsForm";
-import NewsList from "../components/News/NewsList";
+import { NewsForm } from "../components/News/NewsForm";
+import { NewsList } from "../components/News/NewsList";
+import { useNewsActions } from "../hooks/news/useNewsActions";
+import { useNewsData } from "../hooks/news/useNewsData";
 
 export const NewsPage = () => {
-    const [news, setNews] = useState([]);
-    const [categories, setCategories] = useState([]);
-    const [authors, setAuthors] = useState([]);
-    const [editingNews, setEditingNews] = useState(null);
-
-    const newsUrl = "http://localhost:3000/news";
-    const categoryUrl = "http://localhost:3000/categories";
-    const authorUrl = "http://localhost:3000/authors";
-
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const [newsRes, categoriesRes, authorsRes] = await Promise.all([
-                    fetch(newsUrl),
-                    fetch(categoryUrl),
-                    fetch(authorUrl),
-                ]);
-                const newsData = await newsRes.json();
-                const categoriesData = await categoriesRes.json();
-                const authorsData = await authorsRes.json();
-
-                setNews(newsData.sort((a, b) => new Date(b.postDate) - new Date(a.postDate)));
-                setCategories(categoriesData);
-                setAuthors(authorsData);
-            } catch (error) {
-                console.error("Ошибка загрузки данных:", error);
-            }
-        };
-        fetchData();
-    }, []);
-
-    const handleSaveNews = async (newsData) => {
-        try {
-            if (newsData.id) {
-                await fetch(`${newsUrl}/${newsData.id}`, {
-                    method: "PUT",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(newsData),
-                });
-                setNews(
-                    news
-                        .map((item) => (item.id === newsData.id ? newsData : item))
-                        .sort((a, b) => new Date(b.postDate) - new Date(a.postDate))
-                );
-            } else {
-                newsData.id = crypto.randomUUID();
-                newsData.postDate = new Date().toISOString();
-                await fetch(newsUrl, {
-                    method: "POST",
-                    headers: { "Content-Type": "application/json" },
-                    body: JSON.stringify(newsData),
-                });
-                setNews([newsData, ...news].sort((a, b) => new Date(b.postDate) - new Date(a.postDate)));
-            }
-            setEditingNews(null);
-        } catch (error) {
-            console.error("Ошибка сохранения новости:", error);
-        }
-    };
-
-    const handleDeleteNews = async (id) => {
-        if (confirm("Вы уверены, что хотите удалить эту новость?")) {
-            try {
-                await fetch(`${newsUrl}/${id}`, {
-                    method: "DELETE",
-                });
-                setNews(news.filter((item) => item.id !== id));
-            } catch (error) {
-                console.error("Ошибка удаления новости:", error);
-            }
-        }
-    };
-
-    const handleEditNews = (newsItem) => {
-        setEditingNews(newsItem);
-    };
+    const { news, categories, authors, setNews } = useNewsData();
+    const { editingNews, setEditingNews, handleSaveNews, handleDeleteNews, handleEditNews } = useNewsActions(null);
 
     return (
         <div className="d-flex flex-column min-vh-100">
@@ -107,11 +34,15 @@ export const NewsPage = () => {
                                 news={editingNews}
                                 categories={categories}
                                 authors={authors}
-                                onSave={handleSaveNews}
+                                onSave={(newsData) => handleSaveNews(newsData, news, setNews)}
                                 onCancel={() => setEditingNews(null)}
                             />
                         )}
-                        <NewsList news={news} onEdit={handleEditNews} onDelete={handleDeleteNews} />
+                        <NewsList
+                            news={news}
+                            onEdit={handleEditNews}
+                            onDelete={(id) => handleDeleteNews(id, news, setNews)}
+                        />
                     </section>
                 </div>
             </main>

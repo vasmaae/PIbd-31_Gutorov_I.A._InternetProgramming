@@ -1,6 +1,6 @@
 import NewsItem from "./NewsItem";
 
-const NewsList = ({ news, onEdit, onDelete }) => {
+export const NewsList = ({ news, onEdit, onDelete }) => {
     return (
         <div>
             {news.map((newsItem) => (

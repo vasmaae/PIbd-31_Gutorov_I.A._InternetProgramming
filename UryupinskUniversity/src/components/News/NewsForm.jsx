@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const NewsForm = ({ news, categories, authors, onSave, onCancel }) => {
+export const NewsForm = ({ news, categories, authors, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
         id: news.id || "",
         title: news.title || "",
