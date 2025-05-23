@@ -48,7 +48,11 @@ const App = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(newsData),
                 });
-                setNews(news.map((item) => (item.id === newsData.id ? newsData : item)));
+                setNews(
+                    news
+                        .map((item) => (item.id === newsData.id ? newsData : item))
+                        .sort((a, b) => new Date(b.postDate) - new Date(a.postDate))
+                );
             } else {
                 newsData.id = crypto.randomUUID();
                 newsData.postDate = new Date().toISOString();
@@ -57,7 +61,7 @@ const App = () => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(newsData),
                 });
-                setNews([newsData, ...news]);
+                setNews([newsData, ...news].sort((a, b) => new Date(b.postDate) - new Date(a.postDate)));
             }
             setEditingNews(null);
         } catch (error) {
