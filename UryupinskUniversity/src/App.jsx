@@ -14,6 +14,8 @@ const App = () => {
     const [authors, setAuthors] = useState([]);
     const [editingNews, setEditingNews] = useState(null);
 
+    const [filterCategoryId, setFilterAuthorId] = useState("");
+
     const newsUrl = "http://localhost:3000/news";
     const categoryUrl = "http://localhost:3000/categories";
     const authorUrl = "http://localhost:3000/authors";
@@ -109,6 +111,23 @@ const App = () => {
                     </button>
                     <section className="my-5">
                         <h2>Новости</h2>
+                        <div className="d-flex gap-2 mb-3">
+                            <select
+                                className="form-select"
+                                id="newsCategory"
+                                name="categoryId"
+                                required
+                                value={filterCategoryId}
+                                onChange={(e) => setFilterAuthorId(e.target.value)}
+                            >
+                                <option value="">Без фильтра</option>
+                                {categories.map((category) => (
+                                    <option key={category.id} value={category.id}>
+                                        {category.name}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
                         {editingNews && (
                             <NewsForm
                                 news={editingNews}
@@ -118,7 +137,11 @@ const App = () => {
                                 onCancel={() => setEditingNews(null)}
                             />
                         )}
-                        <NewsList news={news} onEdit={handleEditNews} onDelete={handleDeleteNews} />
+                        <NewsList
+                            news={filterCategoryId ? news.filter((item) => item.categoryId === filterCategoryId) : news}
+                            onEdit={handleEditNews}
+                            onDelete={handleDeleteNews}
+                        />
                     </section>
                 </div>
             </main>
