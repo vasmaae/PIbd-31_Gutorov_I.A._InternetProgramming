@@ -21,7 +21,6 @@ export const useNewsActions = (initialNews = null) => {
                 );
             } else {
                 newsData.id = crypto.randomUUID();
-                newsData.postDate = new Date().toISOString();
                 await fetch(newsUrl, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },

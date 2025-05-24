@@ -28,34 +28,22 @@ export const Navbar = () => {
                     <div className="collapse navbar-collapse" id="navbarNav">
                         <ul className="navbar-nav ms-auto">
                             <NavLink className="nav-link nav-item" to="/">
-                                <a className="nav-link">
-                                    <i className="bi bi-house"></i> Главная
-                                </a>
+                                <i className="bi bi-house"></i> Главная
                             </NavLink>
                             <NavLink className="nav-link nav-item" to="/faculties">
-                                <a className="nav-link">
-                                    <i className="bi bi-book"></i> Факультеты
-                                </a>
+                                <i className="bi bi-book"></i> Факультеты
                             </NavLink>
                             <NavLink className="nav-link nav-item" to="/applicants">
-                                <a className="nav-link">
-                                    <i className="bi bi-person"></i> Абитуриентам
-                                </a>
+                                <i className="bi bi-person"></i> Абитуриентам
                             </NavLink>
                             <NavLink className="nav-link nav-item" to="/applications">
-                                <a className="nav-link">
-                                    <i className="bi bi-person-plus-fill"></i> Абитуриенты
-                                </a>
+                                <i className="bi bi-person-plus-fill"></i> Абитуриенты
                             </NavLink>
                             <NavLink className="nav-link nav-item" to="/research">
-                                <a className="nav-link">
-                                    <i className="bi bi-gear"></i> Наука
-                                </a>
+                                <i className="bi bi-gear"></i> Наука
                             </NavLink>
                             <NavLink className="nav-link nav-item" to="/contacts">
-                                <a className="nav-link">
-                                    <i className="bi bi-envelope"></i> Контакты
-                                </a>
+                                <i className="bi bi-envelope"></i> Контакты
                             </NavLink>
                         </ul>
                     </div>
