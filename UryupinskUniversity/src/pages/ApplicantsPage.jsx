@@ -1,10 +1,10 @@
 import { useState } from "react";
 import ApplicationForm from "../components/Application/ApplicationForm";
-import useApplications from "../hooks/applications/useApplications";
+import { useApplications } from "../hooks/applications/useApplications";
 
 export const ApplicantsPage = () => {
     const [editingApplication, setEditingApplication] = useState(null);
-    const { saveApplication } = useApplications();
+    const { programs, saveApplication } = useApplications();
 
     return (
         <div className="container my-5">
@@ -48,6 +48,7 @@ export const ApplicantsPage = () => {
             {editingApplication && (
                 <ApplicationForm
                     application={editingApplication}
+                    programs={programs}
                     onSave={(applicationData) => {
                         saveApplication(applicationData);
                         setEditingApplication(null);

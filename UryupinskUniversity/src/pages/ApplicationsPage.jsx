@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ApplicationForm from "../components/Application/ApplicationForm";
 import ApplicationList from "../components/Application/ApplicationList";
-import useApplications from "../hooks/applications/useApplications";
+import { useApplications } from "../hooks/applications/useApplications";
 
 export const ApplicationsPage = () => {
     const [editingApplication, setEditingApplication] = useState(null);
