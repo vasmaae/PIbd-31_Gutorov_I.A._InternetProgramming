@@ -42,6 +42,11 @@ export const Navbar = () => {
                                     <i className="bi bi-person"></i> Абитуриентам
                                 </a>
                             </NavLink>
+                            <NavLink className="nav-link nav-item" to="/applications">
+                                <a className="nav-link">
+                                    <i className="bi bi-person-plus-fill"></i> Абитуриенты
+                                </a>
+                            </NavLink>
                             <NavLink className="nav-link nav-item" to="/research">
                                 <a className="nav-link">
                                     <i className="bi bi-gear"></i> Наука

@@ -44,5 +44,35 @@
       "id": "2",
       "name": "Мария Смирнова"
     }
+  ],
+  "applications": [
+    {
+      "id": "489345cc-12d7-42e5-80fe-cd5ea53eba99",
+      "fullName": "123",
+      "email": "123@mail.com",
+      "programId": "1",
+      "submissionDate": "2025-05-24T00:21:36.698Z"
+    },
+    {
+      "id": "3e45653f-9c1d-40a1-9305-1868203b3bb0",
+      "fullName": "23",
+      "email": "23@mail.com",
+      "programId": "2",
+      "submissionDate": "2025-05-24T00:22:00.862Z"
+    }
+  ],
+  "programs": [
+    {
+      "id": "1",
+      "name": "Физика"
+    },
+    {
+      "id": "2",
+      "name": "Математика"
+    },
+    {
+      "id": "3",
+      "name": "Информатика"
+    }
   ]
 }
