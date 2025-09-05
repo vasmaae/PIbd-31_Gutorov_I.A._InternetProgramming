@@ -9,16 +9,18 @@ public class ApplicationDto {
     private String programId;
     private ProgramDto program;
     private LocalDateTime submissionDate;
+    private boolean isAdmitted;
 
     public ApplicationDto() {
     }
 
-    public ApplicationDto(String id, String fullName, String email, String programId, LocalDateTime dateFormat) {
+    public ApplicationDto(String id, String fullName, String email, String programId, LocalDateTime dateFormat, boolean isAdmitted) {
         this.id = id;
         this.fullName = fullName;
         this.email = email;
         this.programId = programId;
         this.submissionDate = dateFormat;
+        this.isAdmitted = isAdmitted;
     }
 
     public String getId() {
@@ -69,6 +71,14 @@ public class ApplicationDto {
         this.submissionDate = submissionDate;
     }
 
+    public boolean isAdmitted() {
+        return isAdmitted;
+    }
+
+    public void setAdmitted(boolean admitted) {
+        this.isAdmitted = admitted;
+    }
+
     @Override
     public String toString() {
         return "ApplicationDto{" +
@@ -76,7 +86,9 @@ public class ApplicationDto {
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
                 ", programId='" + programId + '\'' +
+                ", program=" + program +
                 ", submissionDate=" + submissionDate +
+                ", isAdmitted=" + isAdmitted +
                 '}';
     }
 }

@@ -26,11 +26,11 @@ public class ApplicationsController {
         var programs = programsController.getPrograms();
         this.applications = new ConcurrentLinkedDeque<>(List.of(
                 new ApplicationDto(UUID.randomUUID().toString(), "Ivan Ivanov", "ivanov@mail.com",
-                        programs.get(0).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 30, 20)),
+                        programs.get(0).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 30, 20), false),
                 new ApplicationDto(UUID.randomUUID().toString(), "Petr Petrov", "petrov@mail.com",
-                        programs.get(1).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 13, 20, 30)),
+                        programs.get(1).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 13, 20, 30), true),
                 new ApplicationDto(UUID.randomUUID().toString(), "Vasya Vasin", "vasin@mail.com",
-                        programs.get(2).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 12, 10, 40)))
+                        programs.get(2).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 12, 10, 40), false))
         );
         this.applications.forEach(application -> {
             application.setProgram(programsController.get(application.getProgramId()));
@@ -72,6 +72,7 @@ public class ApplicationsController {
         application.setProgramId(newApplication.getProgramId());
         application.setProgram(programsController.get(newApplication.getProgramId()));
         application.setSubmissionDate(newApplication.getSubmissionDate());
+        application.setAdmitted(newApplication.isAdmitted());
         return application;
     }
 
