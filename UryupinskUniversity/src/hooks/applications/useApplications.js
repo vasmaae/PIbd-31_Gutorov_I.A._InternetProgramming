@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 
-const applicationsUrl = "http://localhost:3000/applications";
-const programsUrl = "http://localhost:3000/programs";
+const applicationsUrl = "http://localhost:8080/api/v1.0/applications";
+const programsUrl = "http://localhost:8080/api/v1.0/programs";
 
 export const useApplications = () => {
     const [applications, setApplications] = useState([]);

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const newsUrl = "http://localhost:3000/news";
+const newsUrl = "http://localhost:8080/api/v1.0/news";
 
 export const useNewsActions = (initialNews = null) => {
     const [editingNews, setEditingNews] = useState(initialNews);

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 
-const newsUrl = "http://localhost:3000/news";
-const categoryUrl = "http://localhost:3000/categories";
-const authorUrl = "http://localhost:3000/authors";
+const newsUrl = "http://localhost:8080/api/v1.0/news";
+const categoryUrl = "http://localhost:8080/api/v1.0/categories";
+const authorUrl = "http://localhost:8080/api/v1.0/authors";
 
 export const useNewsData = () => {
     const [news, setNews] = useState([]);
