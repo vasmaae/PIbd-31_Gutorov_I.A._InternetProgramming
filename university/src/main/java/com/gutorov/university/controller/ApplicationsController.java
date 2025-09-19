@@ -32,14 +32,13 @@ public class ApplicationsController {
                 new ApplicationDto(UUID.randomUUID().toString(), "Vasya Vasin", "vasin@mail.com",
                         programs.get(2).getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 12, 10, 40), false))
         );
-        this.applications.forEach(application -> {
-            application.setProgram(programsController.get(application.getProgramId()));
-        });
+        this.applications.forEach(application -> application.setProgram(programsController.get(application.getProgramId())));
     }
 
     @GetMapping
     public List<ApplicationDto> getApplications() {
         var response = applications.stream().toList();
+        response.forEach(application -> application.setProgram(programsController.get(application.getProgramId())));
         log.debug("get all: {}", response);
         return response;
     }
@@ -50,6 +49,7 @@ public class ApplicationsController {
                 .filter(application -> application.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NotFoundException(ApplicationDto.class, id));
+        response.setProgram(programsController.get(response.getProgramId()));
         log.debug("get by id \"{}\": {}", id, response);
         return response;
     }

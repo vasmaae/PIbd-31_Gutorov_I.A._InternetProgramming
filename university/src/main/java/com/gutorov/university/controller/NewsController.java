@@ -35,6 +35,10 @@ class NewsController {
                 new NewsDto(UUID.randomUUID().toString(), "Title 3", "Content 3", categories.get(2).getId(), authors.get(2).getId(),
                         LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 50, 20))
         ));
+        this.news.forEach(news -> {
+            news.setAuthor(authorsController.get(news.getAuthorId()));
+            news.setCategory(categoriesController.get(news.getCategoryId()));
+        });
     }
 
     @GetMapping
@@ -50,6 +54,8 @@ class NewsController {
                 .filter(News -> News.getId().equals(id))
                 .findAny()
                 .orElseThrow(() -> new NotFoundException(NewsDto.class, id));
+        response.setAuthor(authorsController.get(response.getAuthorId()));
+        response.setCategory(categoriesController.get(response.getCategoryId()));
         log.debug("get by id \"{}\": {}", id, response);
         return response;
     }
