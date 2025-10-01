@@ -5,8 +5,8 @@ export const NewsForm = ({ news, categories, authors, onSave, onCancel }) => {
         id: news.id || "",
         title: news.title || "",
         content: news.content || "",
-        categoryId: news.categoryId || "",
-        authorId: news.authorId || "",
+        categoryId: news.categoryId || news.category?.id || "",
+        authorId: news.authorId || news.author?.id || "",
         postDate: new Date().toISOString(),
     });
 

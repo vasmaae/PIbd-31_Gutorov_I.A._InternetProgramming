@@ -26,7 +26,6 @@ export const useNewsActions = (initialNews = null) => {
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(newsData),
                 });
-                // @ts-ignore
                 setNews([newsData, ...currentNews].sort((a, b) => new Date(b.postDate) - new Date(a.postDate)));
             }
             setEditingNews(null);

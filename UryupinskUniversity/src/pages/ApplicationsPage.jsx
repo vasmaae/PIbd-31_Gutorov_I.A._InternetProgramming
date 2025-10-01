@@ -11,8 +11,12 @@ export const ApplicationsPage = () => {
 
     const handleApprove = async (application) => {
         const updatedApplication = {
-            ...application,
-            admitted: true,
+            id: application.id,
+            fullName: application.fullName,
+            email: application.email,
+            programId: application.program?.id,
+            isAdmitted: true,
+            submissionDate: application.submissionDate
         };
 
         try {
@@ -23,8 +27,8 @@ export const ApplicationsPage = () => {
     };
 
     const filteredApplications = applications?.filter((item) => {
-        const matchesProgram = filterProgramId ? item.programId === filterProgramId : true;
-        const matchesAdmitted = filterAdmitted ? item.admitted === true : true;
+        const matchesProgram = filterProgramId ? item.program?.id === filterProgramId : true;
+        const matchesAdmitted = filterAdmitted ? item.isAdmitted === true : true;
         return matchesProgram && matchesAdmitted;
     });
 
@@ -77,9 +81,6 @@ export const ApplicationsPage = () => {
                 />
             )}
             <ApplicationList
-                // applications={
-                //     filterProgramId ? filteredApplications.filter((item) => item.programId === filterProgramId) : applications
-                // }
                 applications={filteredApplications}
                 programs={programs}
                 onEdit={setEditingApplication}

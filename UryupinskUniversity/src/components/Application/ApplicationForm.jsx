@@ -2,16 +2,12 @@ import { useState } from "react";
 
 export const ApplicationForm = ({ application = {}, programs, onSave, onCancel }) => {
     const [formData, setFormData] = useState({
-        // @ts-ignore
         id: application.id || "",
-        // @ts-ignore
         fullName: application.fullName || "",
-        // @ts-ignore
         email: application.email || "",
-        // @ts-ignore
-        programId: application.programId || "",
-        // @ts-ignore
+        programId: application.program?.id || "",
         submissionDate: application.submissionDate || new Date().toISOString(),
+
     });
 
     const handleChange = (e) => {
@@ -27,7 +23,6 @@ export const ApplicationForm = ({ application = {}, programs, onSave, onCancel }
     return (
         <div
             className="modal fade show d-block"
-            // @ts-ignore
             tabIndex="-1"
             style={{ backgroundColor: "rgba(0,0,0,0.5)" }}
         >
@@ -36,7 +31,6 @@ export const ApplicationForm = ({ application = {}, programs, onSave, onCancel }
                     <div className="modal-header">
                         <h5 className="modal-title">
                             {
-                                // @ts-ignore
                                 application.id ? "Редактировать заявку" : "Подать заявку"
                             }
                         </h5>

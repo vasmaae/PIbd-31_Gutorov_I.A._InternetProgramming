@@ -1,10 +1,10 @@
-const ApplicationItem = ({ application, programName, onEdit, onDelete, onApprove }) => {
+const ApplicationItem = ({ application, onEdit, onDelete, onApprove }) => {
     return (
         <div className="card mb-3">
             <div className="card-body">
                 <h5 className="card-title">{application.fullName}</h5>
                 <p className="card-text">Email: {application.email}</p>
-                <p className="card-text">Программа: {programName}</p>
+                <p className="card-text">Программа: {application.program?.name}</p>
                 <p className="card-text">
                     Дата подачи:{" "}
                     {new Date(application.submissionDate).toLocaleDateString("ru-RU", {
@@ -17,7 +17,7 @@ const ApplicationItem = ({ application, programName, onEdit, onDelete, onApprove
                     })}
                 </p>
                 <div className="gap-2 card-text">
-                    {!application.admitted && (
+                    {!application.isAdmitted && (
                         <button
                             className="btn btn-success me-2"
                             onClick={() => {
@@ -29,7 +29,7 @@ const ApplicationItem = ({ application, programName, onEdit, onDelete, onApprove
                             Одобрить
                         </button>
                     )}
-                    {application.admitted && <span className="text-success fw-bold me-2">✅ Заявка одобрена</span>}
+                    {application.isAdmitted && <span className="text-success fw-bold me-2">✅ Заявка одобрена</span>}
                     <button className="btn btn-primary me-2" onClick={() => onEdit(application)}>
                         Редактировать
                     </button>
