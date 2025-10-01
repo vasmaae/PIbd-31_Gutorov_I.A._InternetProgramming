@@ -57,7 +57,6 @@ public class ApplicationMapper {
         entity.setProgram(programService.getEntity(request.getProgramId()));
         if (!Objects.isNull(request.getSubmissionDate()))
             entity.setSubmissionDate(request.getSubmissionDate());
-//        if (request.isAdmitted())
         entity.setAdmitted(request.isAdmitted());
         return entity;
     }

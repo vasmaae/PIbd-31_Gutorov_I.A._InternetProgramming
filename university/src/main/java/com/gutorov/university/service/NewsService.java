@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Service
 public class NewsService {
-    private final Logger log = LoggerFactory.getLogger(NewsService.class);
     private final NewsRepository newsRepository;
     private final NewsMapper newsMapper;
     private final CategoryService categoryService;
@@ -47,7 +46,6 @@ public class NewsService {
     }
 
     public NewsRs update(UUID id, NewsRq request) {
-        log.info("{}", id);
         var entity = getEntity(id);
         entity.setTitle(request.getTitle());
         entity.setContent(request.getContent());

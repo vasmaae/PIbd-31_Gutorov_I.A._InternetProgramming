@@ -15,7 +15,6 @@ import java.util.UUID;
 
 @Service
 public class ApplicationService {
-    Logger logger = LoggerFactory.getLogger(ApplicationService.class);
     private final ApplicationRepository applicationRepository;
     private final ApplicationMapper applicationMapper;
     private final ProgramService programService;
@@ -45,7 +44,6 @@ public class ApplicationService {
     }
 
     public ApplicationRs update(UUID id, ApplicationRq request) {
-        logger.info("{}", request.isAdmitted());
         var entity = getEntity(id);
         entity.setFullName(request.getFullName());
         entity.setEmail(request.getEmail());
