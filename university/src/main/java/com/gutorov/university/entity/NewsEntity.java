@@ -1,35 +1,28 @@
-package com.gutorov.university.dto;
+package com.gutorov.university.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public class NewsDto {
-    private String id;
+public class NewsEntity extends BaseEntity {
     private String title;
     private String content;
-    private String categoryId;
-    private CategoryDto category;
-    private String authorId;
-    private AuthorDto author;
+    private UUID categoryId;
+    private CategoryEntity category;
+    private UUID authorId;
+    private AuthorEntity author;
     private LocalDateTime postDate;
 
-    public NewsDto() {
+    public NewsEntity() {
+        super();
     }
 
-    public NewsDto(String id, String title, String content, String categoryId, String authorId, LocalDateTime postDate) {
-        this.id = id;
+    public NewsEntity(String title, String content, UUID categoryId, UUID authorId, LocalDateTime postDate) {
+        this();
         this.title = title;
         this.content = content;
         this.categoryId = categoryId;
         this.authorId = authorId;
         this.postDate = postDate;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getTitle() {
@@ -48,35 +41,35 @@ public class NewsDto {
         this.content = content;
     }
 
-    public String getCategoryId() {
+    public UUID getCategoryId() {
         return categoryId;
     }
 
-    public void setCategoryId(String categoryId) {
+    public void setCategoryId(UUID categoryId) {
         this.categoryId = categoryId;
     }
 
-    public CategoryDto getCategory() {
+    public CategoryEntity getCategory() {
         return category;
     }
 
-    public void setCategory(CategoryDto category) {
+    public void setCategory(CategoryEntity category) {
         this.category = category;
     }
 
-    public String getAuthorId() {
+    public UUID getAuthorId() {
         return authorId;
     }
 
-    public void setAuthorId(String authorId) {
+    public void setAuthorId(UUID authorId) {
         this.authorId = authorId;
     }
 
-    public AuthorDto getAuthor() {
+    public AuthorEntity getAuthor() {
         return author;
     }
 
-    public void setAuthor(AuthorDto author) {
+    public void setAuthor(AuthorEntity author) {
         this.author = author;
     }
 

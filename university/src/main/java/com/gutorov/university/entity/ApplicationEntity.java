@@ -1,34 +1,27 @@
-package com.gutorov.university.dto;
+package com.gutorov.university.entity;
 
 import java.time.LocalDateTime;
+import java.util.UUID;
 
-public class ApplicationDto {
-    private String id;
+public class ApplicationEntity extends BaseEntity {
     private String fullName;
     private String email;
-    private String programId;
-    private ProgramDto program;
+    private UUID programId;
+    private ProgramEntity program;
     private LocalDateTime submissionDate;
     private boolean isAdmitted;
 
-    public ApplicationDto() {
+    public ApplicationEntity() {
+        super();
     }
 
-    public ApplicationDto(String id, String fullName, String email, String programId, LocalDateTime dateFormat, boolean isAdmitted) {
-        this.id = id;
+    public ApplicationEntity(String fullName, String email, UUID programId, LocalDateTime submissionDate, boolean isAdmitted) {
+        this();
         this.fullName = fullName;
         this.email = email;
         this.programId = programId;
-        this.submissionDate = dateFormat;
+        this.submissionDate = submissionDate;
         this.isAdmitted = isAdmitted;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getFullName() {
@@ -47,19 +40,19 @@ public class ApplicationDto {
         this.email = email;
     }
 
-    public String getProgramId() {
+    public UUID getProgramId() {
         return programId;
     }
 
-    public void setProgramId(String programId) {
+    public void setProgramId(UUID programId) {
         this.programId = programId;
     }
 
-    public ProgramDto getProgram() {
+    public ProgramEntity getProgram() {
         return program;
     }
 
-    public void setProgram(ProgramDto program) {
+    public void setProgram(ProgramEntity program) {
         this.program = program;
     }
 
@@ -75,17 +68,17 @@ public class ApplicationDto {
         return isAdmitted;
     }
 
-    public void setAdmitted(boolean admitted) {
-        this.isAdmitted = admitted;
+    public void setAdmitted(boolean isAdmitted) {
+        this.isAdmitted = isAdmitted;
     }
 
     @Override
     public String toString() {
-        return "ApplicationDto{" +
-                "id='" + id + '\'' +
+        return "ApplicationEntity{" +
+                "id=" + id +
                 ", fullName='" + fullName + '\'' +
                 ", email='" + email + '\'' +
-                ", programId='" + programId + '\'' +
+                ", programId=" + programId +
                 ", program=" + program +
                 ", submissionDate=" + submissionDate +
                 ", isAdmitted=" + isAdmitted +
