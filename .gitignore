@@ -106,3 +106,5 @@ fabric.properties
 hs_err_pid*
 replay_pid*
 
+# Gradle build
+.gradle/
