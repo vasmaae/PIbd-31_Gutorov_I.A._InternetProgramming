@@ -7,7 +7,7 @@ import jakarta.persistence.*
 class ProgramEntity(
     @Column(nullable = false, length = 512) var name: String
 ) : BaseEntity() {
-    @OneToMany(mappedBy = "program", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "_program", cascade = [CascadeType.ALL], orphanRemoval = true)
     var applications: MutableSet<ApplicationEntity> = hashSetOf()
         private set
 

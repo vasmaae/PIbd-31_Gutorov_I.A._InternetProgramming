@@ -11,13 +11,15 @@ class ApplicationEntity(
     @Column(nullable = false) var submissionDate: LocalDateTime,
     @Column(nullable = false) var isAdmitted: Boolean,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "program_id", nullable = false)
-    var program: ProgramEntity?
+    private var _program: ProgramEntity?
 ) : BaseEntity() {
-    fun setProgram(program: ProgramEntity?) {
-        if (this.program != program) {
-            this.program?.removeApplication(this)
-            this.program = program
-            program?.addApplication(this)
+    var program: ProgramEntity?
+        get() = _program
+        set(value) {
+            if (this._program != value) {
+                this._program?.removeApplication(this)
+                this._program = value
+                value?.addApplication(this)
+            }
         }
-    }
 }
