@@ -7,6 +7,8 @@ import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.mapper.ProgramMapper;
 import com.gutorov.university.repository.ProgramRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,24 +24,29 @@ public class ProgramService {
         this.programMapper = programMapper;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public ProgramEntity getEntity(UUID id) {
         return programRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ProgramEntity.class, id.toString()));
     }
 
+    @Transactional(readOnly = true)
     public List<ProgramRs> getAll() {
         return programMapper.toResponse(programRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public ProgramRs get(UUID id) {
         return programMapper.toResponse(getEntity(id));
     }
 
+    @Transactional
     public ProgramRs create(ProgramRq request) {
         ProgramEntity saved = programRepository.save(programMapper.toEntity(request));
         return programMapper.toResponse(saved);
     }
 
+    @Transactional
     public ProgramRs update(UUID id, ProgramRq request) {
         ProgramEntity entity = getEntity(id);
         entity.setName(request.getName());
@@ -47,6 +54,7 @@ public class ProgramService {
         return programMapper.toResponse(saved);
     }
 
+    @Transactional
     public ProgramRs delete(UUID id) {
         ProgramEntity entity = getEntity(id);
         programRepository.delete(entity);

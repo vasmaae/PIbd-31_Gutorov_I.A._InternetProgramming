@@ -7,6 +7,8 @@ import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.mapper.AuthorMapper;
 import com.gutorov.university.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,24 +24,29 @@ public class AuthorService {
         this.authorMapper = authorMapper;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public AuthorEntity getEntity(UUID id) {
         return authorRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(AuthorEntity.class, id.toString()));
     }
 
+    @Transactional(readOnly = true)
     public List<AuthorRs> getAll() {
         return authorMapper.toResponse(authorRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public AuthorRs get(UUID id) {
         return authorMapper.toResponse(getEntity(id));
     }
 
+    @Transactional
     public AuthorRs create(AuthorRq request) {
         AuthorEntity saved = authorRepository.save(authorMapper.toEntity(request));
         return authorMapper.toResponse(saved);
     }
 
+    @Transactional
     public AuthorRs update(UUID id, AuthorRq request) {
         AuthorEntity entity = getEntity(id);
         entity.setName(request.getName());
@@ -47,6 +54,7 @@ public class AuthorService {
         return authorMapper.toResponse(saved);
     }
 
+    @Transactional
     public AuthorRs delete(UUID id) {
         AuthorEntity entity = getEntity(id);
         authorRepository.delete(entity);

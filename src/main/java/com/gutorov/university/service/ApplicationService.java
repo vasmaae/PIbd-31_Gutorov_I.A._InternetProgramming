@@ -6,9 +6,9 @@ import com.gutorov.university.entity.ApplicationEntity;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.mapper.ApplicationMapper;
 import com.gutorov.university.repository.ApplicationRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -25,24 +25,29 @@ public class ApplicationService {
         this.programService = programService;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public ApplicationEntity getEntity(UUID id) {
         return applicationRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(ApplicationEntity.class, id.toString()));
     }
 
+    @Transactional(readOnly = true)
     public List<ApplicationRs> getAll() {
         return applicationMapper.toResponse(applicationRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public ApplicationRs get(UUID id) {
         return applicationMapper.toResponse(getEntity(id));
     }
 
+    @Transactional
     public ApplicationRs create(ApplicationRq request) {
         final var entity = applicationRepository.save(applicationMapper.toEntity(request));
         return applicationMapper.toResponse(entity);
     }
 
+    @Transactional
     public ApplicationRs update(UUID id, ApplicationRq request) {
         var entity = getEntity(id);
         entity.setFullName(request.getFullName());
@@ -54,6 +59,7 @@ public class ApplicationService {
         return applicationMapper.toResponse(entity);
     }
 
+    @Transactional
     public ApplicationRs delete(UUID id) {
         final var entity = getEntity(id);
         applicationRepository.delete(entity);

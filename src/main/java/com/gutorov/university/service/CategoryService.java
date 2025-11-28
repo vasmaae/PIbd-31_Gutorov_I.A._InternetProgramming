@@ -7,6 +7,8 @@ import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.mapper.CategoryMapper;
 import com.gutorov.university.repository.CategoryRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -22,24 +24,29 @@ public class CategoryService {
         this.categoryMapper = categoryMapper;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public CategoryEntity getEntity(UUID id) {
         return categoryRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(CategoryEntity.class, id.toString()));
     }
 
+    @Transactional(readOnly = true)
     public List<CategoryRs> getAll() {
         return categoryMapper.toResponse(categoryRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public CategoryRs get(UUID id) {
         return categoryMapper.toResponse(getEntity(id));
     }
 
+    @Transactional
     public CategoryRs create(CategoryRq request) {
         CategoryEntity saved = categoryRepository.save(categoryMapper.toEntity(request));
         return categoryMapper.toResponse(saved);
     }
 
+    @Transactional
     public CategoryRs update(UUID id, CategoryRq request) {
         CategoryEntity entity = getEntity(id);
         entity.setName(request.getName());
@@ -47,6 +54,7 @@ public class CategoryService {
         return categoryMapper.toResponse(saved);
     }
 
+    @Transactional
     public CategoryRs delete(UUID id) {
         CategoryEntity entity = getEntity(id);
         categoryRepository.delete(entity);

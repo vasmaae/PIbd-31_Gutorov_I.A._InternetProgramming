@@ -6,9 +6,9 @@ import com.gutorov.university.entity.NewsEntity;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.mapper.NewsMapper;
 import com.gutorov.university.repository.NewsRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.UUID;
@@ -27,24 +27,29 @@ public class NewsService {
         this.authorService = authorService;
     }
 
+    @Transactional(propagation = Propagation.MANDATORY)
     public NewsEntity getEntity(UUID id) {
         return newsRepository.findById(id)
                 .orElseThrow(() -> new NotFoundException(NewsEntity.class, id.toString()));
     }
 
+    @Transactional(readOnly = true)
     public List<NewsRs> getAll() {
         return newsMapper.toResponse(newsRepository.findAll());
     }
 
+    @Transactional(readOnly = true)
     public NewsRs get(UUID id) {
         return newsMapper.toResponse(getEntity(id));
     }
 
+    @Transactional
     public NewsRs create(NewsRq request) {
         final var entity = newsRepository.save(newsMapper.toEntity(request));
         return newsMapper.toResponse(entity);
     }
 
+    @Transactional
     public NewsRs update(UUID id, NewsRq request) {
         var entity = getEntity(id);
         entity.setTitle(request.getTitle());
@@ -56,6 +61,7 @@ public class NewsService {
         return newsMapper.toResponse(entity);
     }
 
+    @Transactional
     public NewsRs delete(UUID id) {
         final var entity = getEntity(id);
         newsRepository.delete(entity);
