@@ -57,12 +57,11 @@ public class NewsMapper {
     }
 
     public NewsEntity toEntity(NewsRq request) {
-        final NewsEntity entity = new NewsEntity();
-        entity.setTitle(request.getTitle());
-        entity.setContent(request.getContent());
-        entity.setCategory(categoryService.getEntity(request.getCategoryId()));
-        entity.setAuthor(authorService.getEntity(request.getAuthorId()));
-        entity.setPostDate(request.getPostDate());
-        return entity;
+        return new NewsEntity(
+                request.getTitle(),
+                request.getContent(),
+                categoryService.getEntity(request.getCategoryId()),
+                authorService.getEntity(request.getAuthorId()),
+                request.getPostDate());
     }
 }

@@ -14,6 +14,8 @@ class NewsEntity(
     private var _author: AuthorEntity?,
     @Column(nullable = false) var postDate: LocalDateTime,
 ) : BaseEntity() {
+    constructor() : this("", "", CategoryEntity(), AuthorEntity(), LocalDateTime.MIN)
+
     var category: CategoryEntity?
         get() = _category
         set(value) {

@@ -31,8 +31,6 @@ public class AuthorMapper {
     }
 
     public AuthorEntity toEntity(AuthorRq request) {
-        AuthorEntity entity = new AuthorEntity();
-        entity.setName(request.getName());
-        return entity;
+        return new AuthorEntity(request.getName());
     }
 }

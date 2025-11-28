@@ -31,8 +31,6 @@ public class ProgramMapper {
     }
 
     public ProgramEntity toEntity(ProgramRq request) {
-        ProgramEntity entity = new ProgramEntity();
-        entity.setName(request.getName());
-        return entity;
+        return new ProgramEntity(request.getName());
     }
 }

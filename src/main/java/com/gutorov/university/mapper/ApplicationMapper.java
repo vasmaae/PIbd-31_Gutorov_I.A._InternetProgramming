@@ -51,13 +51,11 @@ public class ApplicationMapper {
     }
 
     public ApplicationEntity toEntity(ApplicationRq request) {
-        final ApplicationEntity entity = new ApplicationEntity();
-        entity.setFullName(request.getFullName());
-        entity.setEmail(request.getEmail());
-        entity.setProgram(programService.getEntity(request.getProgramId()));
-        if (!Objects.isNull(request.getSubmissionDate()))
-            entity.setSubmissionDate(request.getSubmissionDate());
-        entity.setAdmitted(request.isAdmitted());
-        return entity;
+        return new ApplicationEntity(
+                request.getFullName(),
+                request.getEmail(),
+                (!Objects.isNull(request.getSubmissionDate())) ? request.getSubmissionDate() : null,
+                request.isAdmitted(),
+                programService.getEntity(request.getProgramId()));
     }
 }

@@ -13,6 +13,8 @@ class ApplicationEntity(
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "program_id", nullable = false)
     private var _program: ProgramEntity?
 ) : BaseEntity() {
+    constructor() : this("", "", LocalDateTime.MIN, false, null)
+
     var program: ProgramEntity?
         get() = _program
         set(value) {

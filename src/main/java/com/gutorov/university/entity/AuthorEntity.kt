@@ -11,6 +11,8 @@ class AuthorEntity(
     var news: MutableSet<NewsEntity> = hashSetOf()
         private set
 
+    constructor() : this("")
+
     fun addNews(pieceOfNews: NewsEntity) = news.add(pieceOfNews.also { it.author = this })
     fun removeNews(pieceOfNews: NewsEntity) = news.remove(pieceOfNews.also { it.author = null })
 }

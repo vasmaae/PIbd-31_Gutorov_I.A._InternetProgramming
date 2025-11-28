@@ -31,8 +31,6 @@ public class CategoryMapper {
     }
 
     public CategoryEntity toEntity(CategoryRq request) {
-        CategoryEntity entity = new CategoryEntity();
-        entity.setName(request.getName());
-        return entity;
+        return new CategoryEntity(request.getName());
     }
 }

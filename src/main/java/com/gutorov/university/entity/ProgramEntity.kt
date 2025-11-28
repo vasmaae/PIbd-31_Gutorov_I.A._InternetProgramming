@@ -11,6 +11,8 @@ class ProgramEntity(
     var applications: MutableSet<ApplicationEntity> = hashSetOf()
         private set
 
+    constructor() : this("")
+
     fun addApplication(application: ApplicationEntity) = applications.add(application.also { it.program = this })
     fun removeApplication(application: ApplicationEntity) = applications.remove(application.also { it.program = null })
 }
