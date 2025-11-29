@@ -1,6 +1,10 @@
 package com.gutorov.university;
 
-import com.gutorov.university.mapper.*;
+import com.gutorov.university.api.application.ApplicationRq;
+import com.gutorov.university.api.author.AuthorRq;
+import com.gutorov.university.api.category.CategoryRq;
+import com.gutorov.university.api.news.NewsRq;
+import com.gutorov.university.api.program.ProgramRq;
 import com.gutorov.university.service.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -16,27 +20,17 @@ import java.util.Objects;
 public class UniversityApplication implements CommandLineRunner {
     private final Logger log = LoggerFactory.getLogger(UniversityApplication.class);
     private final ApplicationService applicationService;
-    private final ApplicationMapper applicationMapper;
     private final AuthorService authorService;
-    private final AuthorMapper authorMapper;
     private final CategoryService categoryService;
-    private final CategoryMapper categoryMapper;
     private final NewsService newsService;
-    private final NewsMapper newsMapper;
     private final ProgramService programService;
-    private final ProgramMapper programMapper;
 
-    public UniversityApplication(ApplicationService applicationService, ApplicationMapper applicationMapper, AuthorService authorService, AuthorMapper authorMapper, CategoryService categoryService, CategoryMapper categoryMapper, NewsService newsService, NewsMapper newsMapper, ProgramService programService, ProgramMapper programMapper) {
+    public UniversityApplication(ApplicationService applicationService, AuthorService authorService, CategoryService categoryService, NewsService newsService, ProgramService programService) {
         this.applicationService = applicationService;
-        this.applicationMapper = applicationMapper;
         this.authorService = authorService;
-        this.authorMapper = authorMapper;
         this.categoryService = categoryService;
-        this.categoryMapper = categoryMapper;
         this.newsService = newsService;
-        this.newsMapper = newsMapper;
         this.programService = programService;
-        this.programMapper = programMapper;
     }
 
     public static void main(String[] args) {
@@ -47,47 +41,29 @@ public class UniversityApplication implements CommandLineRunner {
         log.info("Populating data");
 
         log.info("Populating authors");
-        final var author1 = authorService.create(authorMapper.toRequest("Anton Antonov"));
-        final var author2 = authorService.create(authorMapper.toRequest("Semen Semenov"));
-        final var author3 = authorService.create(authorMapper.toRequest("Maxim Maximov"));
+        final var author1 = authorService.create(new AuthorRq("Anton Antonov"));
+        final var author2 = authorService.create(new AuthorRq("Semen Semenov"));
+        final var author3 = authorService.create(new AuthorRq("Maxim Maximov"));
 
         log.info("Population categories");
-        final var category1 = categoryService.create(categoryMapper.toRequest("Campus"));
-        final var category2 = categoryService.create(categoryMapper.toRequest("Science"));
-        final var category3 = categoryService.create(categoryMapper.toRequest("Art"));
+        final var category1 = categoryService.create(new CategoryRq("Campus"));
+        final var category2 = categoryService.create(new CategoryRq("Science"));
+        final var category3 = categoryService.create(new CategoryRq("Art"));
 
         log.info("Population news");
-        newsService.create(newsMapper.toRequest("Title 1",
-                "Content 1",
-                category1.getId(),
-                author1.getId(),
-                LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 30, 0)
-        ));
-        newsService.create(newsMapper.toRequest("Title 2",
-                "Content 2",
-                category2.getId(),
-                author2.getId(),
-                LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 40, 10)
-        ));
-        newsService.create(newsMapper.toRequest("Title 3",
-                "Content 3",
-                category3.getId(),
-                author3.getId(),
-                LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 50, 20)
-        ));
+        newsService.create(new NewsRq("Title 1", "Content 1", category1.getId(), author1.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 30, 0)));
+        newsService.create(new NewsRq("Title 2", "Content 2", category2.getId(), author2.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 40, 10)));
+        newsService.create(new NewsRq("Title 3", "Content 3", category3.getId(), author3.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 17, 50, 20)));
 
         log.info("Populating programs");
-        final var program1 = programService.create(programMapper.toRequest("Physics"));
-        final var program2 = programService.create(programMapper.toRequest("Maths"));
-        final var program3 = programService.create(programMapper.toRequest("Informatics"));
+        final var program1 = programService.create(new ProgramRq("Physics"));
+        final var program2 = programService.create(new ProgramRq("Maths"));
+        final var program3 = programService.create(new ProgramRq("Informatics"));
 
         log.info("Populating applications");
-        applicationService.create(applicationMapper.toRequest("Ivan Ivanov", "ivanov@mail.com",
-                program1.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 30, 20), false));
-        applicationService.create(applicationMapper.toRequest("Petr Petrov", "petrov@mail.com",
-                program2.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 20, 30), true));
-        applicationService.create(applicationMapper.toRequest("Vasiliy Vasin", "vasin@mail.com",
-                program3.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 10, 40), false));
+        applicationService.create(new ApplicationRq("Ivan Ivanov", "ivanov@mail.com", program1.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 30, 20), false));
+        applicationService.create(new ApplicationRq("Petr Petrov", "petrov@mail.com", program2.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 20, 30), true));
+        applicationService.create(new ApplicationRq("Vasiliy Vasin", "vasin@mail.com", program3.getId(), LocalDateTime.of(2025, Month.SEPTEMBER, 5, 14, 10, 40), false));
     }
 
     @Override
