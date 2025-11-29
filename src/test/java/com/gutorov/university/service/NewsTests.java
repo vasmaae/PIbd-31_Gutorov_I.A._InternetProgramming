@@ -1,36 +1,32 @@
 package com.gutorov.university.service;
 
+import com.gutorov.university.api.author.AuthorRq;
+import com.gutorov.university.api.category.CategoryRq;
+import com.gutorov.university.api.news.NewsRq;
 import com.gutorov.university.api.news.NewsRs;
 import com.gutorov.university.entity.NewsEntity;
 import com.gutorov.university.exception.NotFoundException;
-import com.gutorov.university.mapper.AuthorMapper;
-import com.gutorov.university.mapper.CategoryMapper;
-import com.gutorov.university.mapper.NewsMapper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.UUID;
 
 @SpringBootTest
+@Transactional
 @Rollback
 public class NewsTests {
     @Autowired
     private AuthorService authorService;
     @Autowired
-    private AuthorMapper authorMapper;
-    @Autowired
     private CategoryService categoryService;
     @Autowired
-    private CategoryMapper categoryMapper;
-    @Autowired
     private NewsService newsService;
-    @Autowired
-    private NewsMapper newsMapper;
 
     @BeforeEach
     void setUp() {
@@ -49,44 +45,44 @@ public class NewsTests {
 
     @Test
     void getEntity_WithExistingId_ReturnsNews() {
-        final var author = authorService.create(authorMapper.toRequest("Author 1"));
-        final var category = categoryService.create(categoryMapper.toRequest("Category 1"));
-        final var news = newsService.create(newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
+        final var author = authorService.create(new AuthorRq("Author 1"));
+        final var category = categoryService.create(new CategoryRq("Category 1"));
+        final var news = newsService.create(new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
         assertNewsAreEqual(news, newsService.getEntity(news.getId()));
     }
 
     @Test
     void getAll_WithNotEmptyRepository_ReturnsNews() {
-        final var author = authorService.create(authorMapper.toRequest("Author 1"));
-        final var category = categoryService.create(categoryMapper.toRequest("Category 1"));
-        newsService.create(newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
-        newsService.create(newsMapper.toRequest("News 2", "Content 2", category.getId(), author.getId(), LocalDateTime.now()));
-        newsService.create(newsMapper.toRequest("News 3", "Content 3", category.getId(), author.getId(), LocalDateTime.now()));
+        final var author = authorService.create(new AuthorRq("Author 1"));
+        final var category = categoryService.create(new CategoryRq("Category 1"));
+        newsService.create(new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
+        newsService.create(new NewsRq("News 2", "Content 2", category.getId(), author.getId(), LocalDateTime.now()));
+        newsService.create(new NewsRq("News 3", "Content 3", category.getId(), author.getId(), LocalDateTime.now()));
         Assertions.assertEquals(3, newsService.getAll().size());
     }
 
     @Test
     void get_WithNotEmptyRepository_ReturnsNews() {
-        final var author = authorService.create(authorMapper.toRequest("Author 1"));
-        final var category = categoryService.create(categoryMapper.toRequest("Category 1"));
-        final var news = newsService.create(newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
+        final var author = authorService.create(new AuthorRq("Author 1"));
+        final var category = categoryService.create(new CategoryRq("Category 1"));
+        final var news = newsService.create(new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
         assertNewsAreEqual(news, newsService.get(news.getId()));
     }
 
     @Test
     void create_WithValidData_ReturnNews() {
-        final var author = authorService.create(authorMapper.toRequest("Author 1"));
-        final var category = categoryService.create(categoryMapper.toRequest("Category 1"));
-        final var createdNews = newsService.create(newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
+        final var author = authorService.create(new AuthorRq("Author 1"));
+        final var category = categoryService.create(new CategoryRq("Category 1"));
+        final var createdNews = newsService.create(new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
         assertNewsAreEqual(createdNews, newsService.get(createdNews.getId()));
     }
 
     @Test
     void update_WithValidData_ReturnsUpdatedNews() {
-        final var author = authorService.create(authorMapper.toRequest("Author 1"));
-        final var category = categoryService.create(categoryMapper.toRequest("Category 1"));
-        final var createdNewsId = newsService.create(newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
-        final var updatedNews = newsService.update(createdNewsId.getId(), newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
+        final var author = authorService.create(new AuthorRq("Author 1"));
+        final var category = categoryService.create(new CategoryRq("Category 1"));
+        final var createdNewsId = newsService.create(new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
+        final var updatedNews = newsService.update(createdNewsId.getId(), new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now()));
         assertNewsAreEqual(updatedNews, newsService.get(updatedNews.getId()));
     }
 
@@ -97,9 +93,9 @@ public class NewsTests {
 
     @Test
     void delete_WithExistingId_NewsDeletes() {
-        final var author = authorService.create(authorMapper.toRequest("Author 1"));
-        final var category = categoryService.create(categoryMapper.toRequest("Category 1"));
-        final var createdNewsId = newsService.create(newsMapper.toRequest("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now())).getId();
+        final var author = authorService.create(new AuthorRq("Author 1"));
+        final var category = categoryService.create(new CategoryRq("Category 1"));
+        final var createdNewsId = newsService.create(new NewsRq("News 1", "Content 1", category.getId(), author.getId(), LocalDateTime.now())).getId();
         newsService.delete(createdNewsId);
         Assertions.assertEquals(0, newsService.getAll().size());
     }
