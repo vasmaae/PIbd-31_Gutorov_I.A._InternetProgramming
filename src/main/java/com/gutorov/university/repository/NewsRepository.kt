@@ -13,7 +13,6 @@ import java.time.LocalDateTime
 import java.util.*
 
 interface NewsRepository : JpaRepository<NewsEntity, UUID> {
-
     // 1. Количество новостей по каждой категории
     @Query(
         """
@@ -30,12 +29,12 @@ interface NewsRepository : JpaRepository<NewsEntity, UUID> {
     // 2. Топ активных авторов (по количеству опубликованных новостей)
     @Query(
         """
-        SELECT a.name AS authorName, 
-               COUNT(n) AS newsCount
+        SELECT a.name AS authorName, COUNT(n) AS newsCount
         FROM NewsEntity n
         JOIN n.author a
         GROUP BY a.id, a.name
         ORDER BY newsCount DESC
+        LIMIT :limit
     """
     )
     fun getTopAuthors(@Param("limit") limit: Int = 5): List<TopAuthor>

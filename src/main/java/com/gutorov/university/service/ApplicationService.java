@@ -3,12 +3,17 @@ package com.gutorov.university.service;
 import com.gutorov.university.api.application.ApplicationRq;
 import com.gutorov.university.api.application.ApplicationRs;
 import com.gutorov.university.entity.ApplicationEntity;
+import com.gutorov.university.entity.projection.MonthlyApplications;
+import com.gutorov.university.entity.projection.OverallStatsProjection;
+import com.gutorov.university.entity.projection.ProgramApplicationsStats;
+import com.gutorov.university.entity.projection.ProgramPopularity;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.repository.ApplicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
@@ -62,5 +67,37 @@ public class ApplicationService {
         final var entity = getEntity(id);
         applicationRepository.delete(entity);
         return ApplicationRs.fromEntity(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProgramApplicationsStats> getApplicationsStatsByProgram() {
+        return applicationRepository.getApplicationsStatsByProgram();
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProgramPopularity> getTopPopularPrograms(int limit) {
+        return applicationRepository.getTopPopularPrograms(limit);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ProgramPopularity> getTopPopularPrograms() {
+        return applicationRepository.getTopPopularPrograms(5); // значение по умолчанию
+    }
+
+    @Transactional(readOnly = true)
+    public List<MonthlyApplications> getApplicationsByMonth(LocalDateTime from, LocalDateTime to) {
+        return applicationRepository.getApplicationsByMonth(from, to);
+    }
+
+    @Transactional(readOnly = true)
+    public OverallStatsProjection getOverallStats(LocalDateTime from, LocalDateTime to) {
+        return applicationRepository.getOverallStats(from, to);
+    }
+
+    @Transactional(readOnly = true)
+    public List<ApplicationEntity> getApplicationsByProgramAndPeriod(UUID programId, LocalDateTime from,
+                                                                     LocalDateTime to, Boolean isAdmitted) {
+        final var program = programService.getEntity(programId);
+        return applicationRepository.findByProgramAndSubmissionDateBetweenAndIsAdmitted(program, from, to, isAdmitted);
     }
 }

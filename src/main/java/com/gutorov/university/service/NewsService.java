@@ -3,18 +3,22 @@ package com.gutorov.university.service;
 import com.gutorov.university.api.news.NewsRq;
 import com.gutorov.university.api.news.NewsRs;
 import com.gutorov.university.entity.NewsEntity;
+import com.gutorov.university.entity.projection.MonthlyNews;
+import com.gutorov.university.entity.projection.NewsByCategory;
+import com.gutorov.university.entity.projection.NewsOverallStats;
+import com.gutorov.university.entity.projection.TopAuthor;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.repository.NewsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.UUID;
 
 @Service
 public class NewsService {
-
     private final NewsRepository newsRepository;
     private final CategoryService categoryService;
     private final AuthorService authorService;
@@ -67,5 +71,36 @@ public class NewsService {
         final var entity = getEntity(id);
         newsRepository.delete(entity);
         return NewsRs.fromEntity(entity);
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsByCategory> getNewsCountByCategory() {
+        return newsRepository.getNewsCountByCategory();
+    }
+
+    @Transactional(readOnly = true)
+    public List<MonthlyNews> getNewsByMonth(LocalDateTime from, LocalDateTime to) {
+        return newsRepository.getNewsByMonth(from, to);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TopAuthor> getTopAuthors(int limit) {
+        return newsRepository.getTopAuthors(limit);
+    }
+
+    @Transactional(readOnly = true)
+    public List<TopAuthor> getTopAuthors() {
+        return newsRepository.getTopAuthors(5);
+    }
+
+    @Transactional(readOnly = true)
+    public NewsOverallStats getOverallNewsStats(LocalDateTime from, LocalDateTime to) {
+        return newsRepository.getOverallNewsStats(from, to);
+    }
+
+    @Transactional(readOnly = true)
+    public List<NewsEntity> getNewsByCategoryAndPeriod(UUID categoryId, LocalDateTime from, LocalDateTime to) {
+        final var category = categoryService.getEntity(categoryId);
+        return newsRepository.findByCategoryAndPostDateBetween(category, from, to);
     }
 }

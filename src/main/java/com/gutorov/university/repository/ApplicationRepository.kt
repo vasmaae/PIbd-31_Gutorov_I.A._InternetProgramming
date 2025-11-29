@@ -38,6 +38,7 @@ interface ApplicationRepository : JpaRepository<ApplicationEntity, UUID> {
         JOIN a.program p 
         GROUP BY p.id, p.name 
         ORDER BY totalApplications DESC
+        LIMIT :limit
     """
     )
     fun getTopPopularPrograms(@Param("limit") limit: Int = 5): List<ProgramPopularity>
