@@ -1,6 +1,6 @@
 package com.gutorov.university.entity.projection
 
-interface NewsByCategoryStats {
+interface NewsByCategory {
     val categoryName: String
-    val newsCount: Long
+    val newsCount: Int
 }
