@@ -7,7 +7,7 @@ import jakarta.persistence.*
 class CategoryEntity(
     @Column(nullable = false, length = 512) var name: String,
 ) : BaseEntity() {
-    @OneToMany(mappedBy = "_category", cascade = [CascadeType.ALL], orphanRemoval = true)
+    @OneToMany(mappedBy = "category", cascade = [CascadeType.ALL], orphanRemoval = true)
     var news: MutableSet<NewsEntity> = hashSetOf()
         private set
 

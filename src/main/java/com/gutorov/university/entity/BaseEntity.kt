@@ -9,7 +9,7 @@ import java.util.*
 abstract class BaseEntity {
     @Id
     @GeneratedValue(generator = "uuid2")
-    open var id: UUID = UUID.randomUUID()
+    open var id: UUID? = null
         protected set
 
     protected constructor()
