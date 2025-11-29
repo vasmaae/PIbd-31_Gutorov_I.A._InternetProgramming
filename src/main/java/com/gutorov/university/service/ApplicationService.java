@@ -4,7 +4,6 @@ import com.gutorov.university.api.application.ApplicationRq;
 import com.gutorov.university.api.application.ApplicationRs;
 import com.gutorov.university.entity.ApplicationEntity;
 import com.gutorov.university.exception.NotFoundException;
-import com.gutorov.university.mapper.ApplicationMapper;
 import com.gutorov.university.repository.ApplicationRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -16,35 +15,34 @@ import java.util.UUID;
 @Service
 public class ApplicationService {
     private final ApplicationRepository applicationRepository;
-    private final ApplicationMapper applicationMapper;
     private final ProgramService programService;
 
-    public ApplicationService(ApplicationRepository applicationRepository, ApplicationMapper applicationMapper, ProgramService programService) {
+    public ApplicationService(ApplicationRepository applicationRepository, ProgramService programService) {
         this.applicationRepository = applicationRepository;
-        this.applicationMapper = applicationMapper;
         this.programService = programService;
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
     public ApplicationEntity getEntity(UUID id) {
-        return applicationRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(ApplicationEntity.class, id.toString()));
+        return applicationRepository.findById(id).orElseThrow(() -> new NotFoundException(ApplicationEntity.class, id.toString()));
     }
 
     @Transactional(readOnly = true)
     public List<ApplicationRs> getAll() {
-        return applicationMapper.toResponse(applicationRepository.findAll());
+        return ApplicationRs.fromEntityList(applicationRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     public ApplicationRs get(UUID id) {
-        return applicationMapper.toResponse(getEntity(id));
+        return ApplicationRs.fromEntity(getEntity(id));
     }
 
     @Transactional
     public ApplicationRs create(ApplicationRq request) {
-        final var entity = applicationRepository.save(applicationMapper.toEntity(request));
-        return applicationMapper.toResponse(entity);
+        final var program = programService.getEntity(request.getProgramId());
+        var entity = new ApplicationEntity(request.getFullName(), request.getEmail(), request.getSubmissionDate(), request.isAdmitted(), program);
+        entity = applicationRepository.save(entity);
+        return ApplicationRs.fromEntity(entity);
     }
 
     @Transactional
@@ -52,17 +50,17 @@ public class ApplicationService {
         var entity = getEntity(id);
         entity.setFullName(request.getFullName());
         entity.setEmail(request.getEmail());
-        entity.setProgram(programService.getEntity(request.getProgramId()));
+        entity.changeProgram(programService.getEntity(request.getProgramId()));
         entity.setSubmissionDate(request.getSubmissionDate());
         entity.setAdmitted(request.isAdmitted());
         entity = applicationRepository.save(entity);
-        return applicationMapper.toResponse(entity);
+        return ApplicationRs.fromEntity(entity);
     }
 
     @Transactional
     public ApplicationRs delete(UUID id) {
         final var entity = getEntity(id);
         applicationRepository.delete(entity);
-        return applicationMapper.toResponse(entity);
+        return ApplicationRs.fromEntity(entity);
     }
 }

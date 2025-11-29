@@ -4,7 +4,6 @@ import com.gutorov.university.api.author.AuthorRq;
 import com.gutorov.university.api.author.AuthorRs;
 import com.gutorov.university.entity.AuthorEntity;
 import com.gutorov.university.exception.NotFoundException;
-import com.gutorov.university.mapper.AuthorMapper;
 import com.gutorov.university.repository.AuthorRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,49 +14,47 @@ import java.util.UUID;
 
 @Service
 public class AuthorService {
-    private final AuthorRepository authorRepository;
-    private final AuthorMapper authorMapper;
 
-    public AuthorService(AuthorRepository authorRepository,
-                         AuthorMapper authorMapper) {
+    private final AuthorRepository authorRepository;
+
+    public AuthorService(AuthorRepository authorRepository) {
         this.authorRepository = authorRepository;
-        this.authorMapper = authorMapper;
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
     public AuthorEntity getEntity(UUID id) {
-        return authorRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(AuthorEntity.class, id.toString()));
+        return authorRepository.findById(id).orElseThrow(() -> new NotFoundException(AuthorEntity.class, id.toString()));
     }
 
     @Transactional(readOnly = true)
     public List<AuthorRs> getAll() {
-        return authorMapper.toResponse(authorRepository.findAll());
+        return AuthorRs.fromEntityList(authorRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     public AuthorRs get(UUID id) {
-        return authorMapper.toResponse(getEntity(id));
+        return AuthorRs.fromEntity(getEntity(id));
     }
 
     @Transactional
     public AuthorRs create(AuthorRq request) {
-        AuthorEntity saved = authorRepository.save(authorMapper.toEntity(request));
-        return authorMapper.toResponse(saved);
+        var entity = new AuthorEntity(request.getName());
+        entity = authorRepository.save(entity);
+        return AuthorRs.fromEntity(entity);
     }
 
     @Transactional
     public AuthorRs update(UUID id, AuthorRq request) {
-        AuthorEntity entity = getEntity(id);
+        var entity = getEntity(id);
         entity.setName(request.getName());
-        AuthorEntity saved = authorRepository.save(entity);
-        return authorMapper.toResponse(saved);
+        entity = authorRepository.save(entity);
+        return AuthorRs.fromEntity(entity);
     }
 
     @Transactional
     public AuthorRs delete(UUID id) {
-        AuthorEntity entity = getEntity(id);
+        final var entity = getEntity(id);
         authorRepository.delete(entity);
-        return authorMapper.toResponse(entity);
+        return AuthorRs.fromEntity(entity);
     }
 }

@@ -4,7 +4,6 @@ import com.gutorov.university.api.news.NewsRq;
 import com.gutorov.university.api.news.NewsRs;
 import com.gutorov.university.entity.NewsEntity;
 import com.gutorov.university.exception.NotFoundException;
-import com.gutorov.university.mapper.NewsMapper;
 import com.gutorov.university.repository.NewsRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
@@ -15,38 +14,40 @@ import java.util.UUID;
 
 @Service
 public class NewsService {
+
     private final NewsRepository newsRepository;
-    private final NewsMapper newsMapper;
     private final CategoryService categoryService;
     private final AuthorService authorService;
 
-    public NewsService(NewsRepository newsRepository, NewsMapper newsMapper, CategoryService categoryService, AuthorService authorService) {
+    public NewsService(NewsRepository newsRepository, CategoryService categoryService, AuthorService authorService) {
         this.newsRepository = newsRepository;
-        this.newsMapper = newsMapper;
         this.categoryService = categoryService;
         this.authorService = authorService;
     }
 
     @Transactional(propagation = Propagation.MANDATORY)
     public NewsEntity getEntity(UUID id) {
-        return newsRepository.findById(id)
-                .orElseThrow(() -> new NotFoundException(NewsEntity.class, id.toString()));
+        return newsRepository.findById(id).orElseThrow(() -> new NotFoundException(NewsEntity.class, id.toString()));
     }
 
     @Transactional(readOnly = true)
     public List<NewsRs> getAll() {
-        return newsMapper.toResponse(newsRepository.findAll());
+        return NewsRs.fromEntityList(newsRepository.findAll());
     }
 
     @Transactional(readOnly = true)
     public NewsRs get(UUID id) {
-        return newsMapper.toResponse(getEntity(id));
+        return NewsRs.fromEntity(getEntity(id));
     }
 
     @Transactional
     public NewsRs create(NewsRq request) {
-        final var entity = newsRepository.save(newsMapper.toEntity(request));
-        return newsMapper.toResponse(entity);
+        final var category = categoryService.getEntity(request.getCategoryId());
+        final var author = authorService.getEntity(request.getAuthorId());
+
+        var entity = new NewsEntity(request.getTitle(), request.getContent(), category, author, request.getPostDate());
+        entity = newsRepository.save(entity);
+        return NewsRs.fromEntity(entity);
     }
 
     @Transactional
@@ -54,17 +55,17 @@ public class NewsService {
         var entity = getEntity(id);
         entity.setTitle(request.getTitle());
         entity.setContent(request.getContent());
-        entity.setCategory(categoryService.getEntity(request.getCategoryId()));
-        entity.setAuthor(authorService.getEntity(request.getAuthorId()));
         entity.setPostDate(request.getPostDate());
+        entity.changeCategory(categoryService.getEntity(request.getCategoryId()));
+        entity.changeAuthor(authorService.getEntity(request.getAuthorId()));
         entity = newsRepository.save(entity);
-        return newsMapper.toResponse(entity);
+        return NewsRs.fromEntity(entity);
     }
 
     @Transactional
     public NewsRs delete(UUID id) {
         final var entity = getEntity(id);
         newsRepository.delete(entity);
-        return newsMapper.toResponse(entity);
+        return NewsRs.fromEntity(entity);
     }
 }
