@@ -2,10 +2,10 @@ package com.gutorov.university.repository
 
 import com.gutorov.university.entity.CategoryEntity
 import com.gutorov.university.entity.NewsEntity
-import com.gutorov.university.entity.projection.AuthorActivity
-import com.gutorov.university.entity.projection.MonthlyNewsStats
-import com.gutorov.university.entity.projection.NewsByCategoryStats
-import com.gutorov.university.entity.projection.OverallNewsStatsProjection
+import com.gutorov.university.entity.projection.MonthlyNews
+import com.gutorov.university.entity.projection.NewsByCategory
+import com.gutorov.university.entity.projection.NewsOverallStats
+import com.gutorov.university.entity.projection.TopAuthor
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.jpa.repository.Query
 import org.springframework.data.repository.query.Param
@@ -25,7 +25,7 @@ interface NewsRepository : JpaRepository<NewsEntity, UUID> {
         ORDER BY newsCount DESC
     """
     )
-    fun getNewsCountByCategory(): List<NewsByCategoryStats>
+    fun getNewsCountByCategory(): List<NewsByCategory>
 
     // 2. Топ активных авторов (по количеству опубликованных новостей)
     @Query(
@@ -34,11 +34,11 @@ interface NewsRepository : JpaRepository<NewsEntity, UUID> {
                COUNT(n) AS newsCount
         FROM NewsEntity n
         JOIN n.author a
-        GROUP BY a.id, a.fullName
+        GROUP BY a.id, a.name
         ORDER BY newsCount DESC
     """
     )
-    fun getTopAuthors(@Param("limit") limit: Int = 5): List<AuthorActivity>
+    fun getTopAuthors(@Param("limit") limit: Int = 5): List<TopAuthor>
 
     // 3. Динамика публикаций по месяцам (за всё время или за период)
     @Query(
@@ -55,7 +55,7 @@ interface NewsRepository : JpaRepository<NewsEntity, UUID> {
     )
     fun getNewsByMonth(
         @Param("from") from: LocalDateTime? = null, @Param("to") to: LocalDateTime? = null
-    ): List<MonthlyNewsStats>
+    ): List<MonthlyNews>
 
     // 4. Общая статистика за период
     @Query(
@@ -70,7 +70,7 @@ interface NewsRepository : JpaRepository<NewsEntity, UUID> {
     )
     fun getOverallNewsStats(
         @Param("from") from: LocalDateTime?, @Param("to") to: LocalDateTime?
-    ): OverallNewsStatsProjection?
+    ): NewsOverallStats?
 
     // 5. Новости конкретной категории за период (полный список сущностей, если нужен для детализации)
     fun findByCategoryAndPostDateBetween(
