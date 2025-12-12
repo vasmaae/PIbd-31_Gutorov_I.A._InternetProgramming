@@ -1,3 +1,3 @@
 spring:
   datasource:
-    url: jdbc:postgresql://127.0.0.1/is-test
+    url: jdbc:postgresql://localhost:5432/university

@@ -51,7 +51,6 @@ tasks.register("generateDiff") {
         liquibase {
             activities {
                 main {
-                    diffTypes "data"
                     changeLogFile "src/main/resources/db/generated-diff-${timestamp}.yml"
                 }
             }

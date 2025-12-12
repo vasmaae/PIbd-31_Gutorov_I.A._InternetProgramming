@@ -63,7 +63,7 @@ configurations {
 }
 
 if ("front" in springProfiles)
-    apply(from = "build.front.gradle.kts")
+    apply(from = "build.front.gradle")
 if ("dev" in springProfiles)
     apply(from = "build.migrations.gradle")
 
