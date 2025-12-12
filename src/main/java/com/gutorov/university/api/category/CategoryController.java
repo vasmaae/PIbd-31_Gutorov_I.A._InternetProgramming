@@ -1,19 +1,14 @@
 package com.gutorov.university.api.category;
 
-import com.gutorov.university.api.category.CategoryRq;
-import com.gutorov.university.api.category.CategoryRs;
+import com.gutorov.university.api.page.PageHelper;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.config.Constants;
-import com.gutorov.university.entity.CategoryEntity;
-import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.service.CategoryService;
 import jakarta.validation.Valid;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
-import java.util.concurrent.ConcurrentLinkedDeque;
 
 @RestController
 @RequestMapping(Constants.API_URL + com.gutorov.university.api.category.CategoryController.URL)
@@ -27,8 +22,10 @@ public class CategoryController {
     }
 
     @GetMapping
-    public List<CategoryRs> getCategorys() {
-        return categoryService.getAll();
+    public PageRs<CategoryRs> getCategories(
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size) {
+        return categoryService.getAll(PageHelper.toPageable(page, size));
     }
 
     @GetMapping("/{id}")

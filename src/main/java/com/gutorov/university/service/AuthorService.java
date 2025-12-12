@@ -2,9 +2,11 @@ package com.gutorov.university.service;
 
 import com.gutorov.university.api.author.AuthorRq;
 import com.gutorov.university.api.author.AuthorRs;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.entity.AuthorEntity;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.repository.AuthorRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,11 @@ public class AuthorService {
     @Transactional(readOnly = true)
     public List<AuthorRs> getAll() {
         return AuthorRs.fromEntityList(authorRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public PageRs<AuthorRs> getAll(Pageable pageable) {
+        return PageRs.from(authorRepository.findAll(pageable), AuthorRs::fromEntity);
     }
 
     @Transactional(readOnly = true)

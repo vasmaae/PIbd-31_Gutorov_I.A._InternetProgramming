@@ -10,22 +10,22 @@ import static com.gutorov.university.config.Constants.*;
 
 @Profile("!front")
 @Controller
-class ThemeUtil {
+class PageSizeUtil {
     private final WebHelper webHelper;
 
-    public ThemeUtil(WebHelper webHelper) {
+    public PageSizeUtil(WebHelper webHelper) {
         this.webHelper = webHelper;
     }
 
-    @PostMapping("/toggle-theme")
+    @PostMapping("/toggle-page-size")
     public String toggleTheme(HttpServletRequest request, HttpServletResponse response) {
-        final String currentTheme = webHelper.getCookie(THEME_COOKIE, THEME_DEFAULT, request);
-        final String newTheme = currentTheme.equals(THEME_DARK) ? THEME_DEFAULT : THEME_DARK;
-        webHelper.setCookie(THEME_COOKIE, newTheme, response);
+        final String currentTheme = webHelper.getCookie(PAGE_SIZE_COOKIE, PAGE_SIZE_DEFAULT, request);
+        final String newTheme = currentTheme.equals(PAGE_SIZE_SECONDARY) ? PAGE_SIZE_DEFAULT : PAGE_SIZE_SECONDARY;
+        webHelper.setCookie(PAGE_SIZE_COOKIE, newTheme, response);
         return "redirect:" + webHelper.getSafeReferer();
     }
 
     public String getTheme() {
-        return webHelper.getCookie(THEME_COOKIE, THEME_DEFAULT);
+        return webHelper.getCookie(PAGE_SIZE_COOKIE, PAGE_SIZE_DEFAULT);
     }
 }

@@ -1,11 +1,13 @@
 package com.gutorov.university.api.author;
 
+import com.gutorov.university.api.page.PageHelper;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.config.Constants;
 import com.gutorov.university.service.AuthorService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -20,8 +22,10 @@ public class AuthorController {
     }
 
     @GetMapping
-    public List<AuthorRs> getAuthors() {
-        return authorService.getAll();
+    public PageRs<AuthorRs> getAuthors(
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size) {
+        return authorService.getAll(PageHelper.toPageable(page, size));
     }
 
     @GetMapping("/{id}")

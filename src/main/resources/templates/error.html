@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="~{layout/layout}">
+<head>
+    <title>Ошибка</title>
+</head>
+
+<body>
+<main layout:fragment="content">
+    <div class="row justify-content-center">
+        <div class="col text-center">
+            <div class="mb-2" th:text="${@webHelper.getHeader('user-agent')}"></div>
+            <th:block th:if="${details == null or #strings.isEmpty(details.message)}">
+                <div class="mb-2"><strong>Неизвестная ошибка</strong></div>
+            </th:block>
+            <th:block th:if="${details != null and not #strings.isEmpty(details.message)}">
+                <div class="mb-2"><strong>Ошибка: [[${details.message}]]</strong></div>
+            </th:block>
+            <a class="btn btn-primary" href="/">На главную</a>
+        </div>
+    </div>
+</main>
+</body>
+</html>

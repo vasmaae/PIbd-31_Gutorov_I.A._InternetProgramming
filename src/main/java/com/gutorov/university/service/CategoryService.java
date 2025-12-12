@@ -2,9 +2,11 @@ package com.gutorov.university.service;
 
 import com.gutorov.university.api.category.CategoryRq;
 import com.gutorov.university.api.category.CategoryRs;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.entity.CategoryEntity;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.repository.CategoryRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +31,11 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryRs> getAll() {
         return CategoryRs.fromEntityList(categoryRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public PageRs<CategoryRs> getAll(Pageable pageable) {
+        return PageRs.from(categoryRepository.findAll(pageable), CategoryRs::fromEntity);
     }
 
     @Transactional(readOnly = true)

@@ -5,9 +5,9 @@ public class Constants {
     public static final String API_URL = "/api/v1.0";
     public static final String MVC_REDIRECT = "redirect:/";
 
-    public static final String THEME_COOKIE = "theme";
-    public static final String THEME_DEFAULT = "light";
-    public static final String THEME_DARK = "dark";
+    public static final String PAGE_SIZE_COOKIE = "page_size";
+    public static final String PAGE_SIZE_DEFAULT = "5";
+    public static final String PAGE_SIZE_SECONDARY = "10";
 
     private Constants() {
     }
