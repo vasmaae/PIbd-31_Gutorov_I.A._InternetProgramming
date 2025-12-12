@@ -15,3 +15,6 @@ spring:
     change-log: classpath:db/master.yml
 server:
   port: 8080
+  servlet:
+    session:
+      tracking-modes: cookie

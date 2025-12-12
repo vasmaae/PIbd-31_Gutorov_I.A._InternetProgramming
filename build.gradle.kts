@@ -45,6 +45,9 @@ val h2Version = "2.4.240"
 val postgresVersion = "42.7.8"
 val liquibaseVersion: String by extra
 val mockitoVersion = "5.19.0"
+val thymeleafLayoutVersion = "3.4.0"
+val bootstrapVersion = "5.3.3"
+val bootstrapIconsVersion = "1.11.3"
 
 val springProfiles = mutableListOf<String>().apply {
     if (project.hasProperty("front"))
@@ -80,6 +83,16 @@ dependencies {
     else {
         runtimeOnly("org.postgresql:postgresql:${postgresVersion}")
         runtimeOnly("com.h2database:h2:$h2Version")
+    }
+
+    if ("front" !in springProfiles) {
+        implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
+        implementation("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:${thymeleafLayoutVersion}")
+        developmentOnly("org.springframework.boot:spring-boot-devtools")
+        runtimeOnly("org.webjars.npm:bootstrap:${bootstrapVersion}")
+        runtimeOnly("org.webjars.npm:bootstrap-icons:${bootstrapIconsVersion}")
+    } else {
+        implementation("org.springdoc:springdoc-openapi-starter-webmvc-ui:${springdocVersion}")
     }
 
     testImplementation("org.springframework.boot:spring-boot-starter-test")
