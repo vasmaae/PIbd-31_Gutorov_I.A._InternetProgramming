@@ -13,8 +13,8 @@ liquibase {
         main {
             changelogFile "db/master.yml"
             url "jdbc:h2:file:./data"
-            username "sa"
-            password "sa"
+            username "university"
+            password "university"
             referenceUrl "hibernate:spring:com.gutorov.university.entity?dialect=org.hibernate.dialect.H2Dialect"
             logLevel "warn"
         }
@@ -51,6 +51,7 @@ tasks.register("generateDiff") {
         liquibase {
             activities {
                 main {
+                    diffTypes "data"
                     changeLogFile "src/main/resources/db/generated-diff-${timestamp}.yml"
                 }
             }
@@ -59,3 +60,19 @@ tasks.register("generateDiff") {
     finalizedBy diffChangelog
 }
 diffChangelog.dependsOn compileJava
+
+tasks.register("generateData") {
+    group = "migrations"
+    description = "Generate data from existing database"
+    doFirst() {
+        liquibase {
+            activities {
+                main {
+                    diffTypes "data"
+                    changeLogFile "src/main/resources/db/generated-full-${timestamp}.yml"
+                }
+            }
+        }
+    }
+    finalizedBy generateChangelog
+}

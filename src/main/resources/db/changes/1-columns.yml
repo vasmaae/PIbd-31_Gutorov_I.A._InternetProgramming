@@ -1,0 +1,49 @@
+databaseChangeLog:
+  - changeSet:
+      id: rename-columns
+      author: ivan
+      changes:
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: full_name
+                  type: VARCHAR(512)
+            tableName: applications
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: is_admitted
+                  type: BOOLEAN
+            tableName: applications
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: post_date
+                  type: TIMESTAMP(6)
+            tableName: news
+        - addColumn:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                  name: submission_date
+                  type: TIMESTAMP(6)
+            tableName: applications
+        - dropColumn:
+            columnName: FULLNAME
+            tableName: APPLICATIONS
+        - dropColumn:
+            columnName: ISADMITTED
+            tableName: APPLICATIONS
+        - dropColumn:
+            columnName: POSTDATE
+            tableName: NEWS
+        - dropColumn:
+            columnName: SUBMISSIONDATE
+            tableName: APPLICATIONS

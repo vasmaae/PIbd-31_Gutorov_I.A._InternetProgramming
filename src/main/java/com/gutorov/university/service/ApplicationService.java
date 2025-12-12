@@ -2,6 +2,7 @@ package com.gutorov.university.service;
 
 import com.gutorov.university.api.application.ApplicationRq;
 import com.gutorov.university.api.application.ApplicationRs;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.entity.ApplicationEntity;
 import com.gutorov.university.entity.projection.MonthlyApplications;
 import com.gutorov.university.entity.projection.OverallStatsProjection;
@@ -9,6 +10,7 @@ import com.gutorov.university.entity.projection.ProgramApplicationsStats;
 import com.gutorov.university.entity.projection.ProgramPopularity;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.repository.ApplicationRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -35,6 +37,11 @@ public class ApplicationService {
     @Transactional(readOnly = true)
     public List<ApplicationRs> getAll() {
         return ApplicationRs.fromEntityList(applicationRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public PageRs<ApplicationRs> getAll(Pageable pageable) {
+        return PageRs.from(applicationRepository.findAll(pageable), ApplicationRs::fromEntity);
     }
 
     @Transactional(readOnly = true)

@@ -1,0 +1,178 @@
+databaseChangeLog:
+  - changeSet:
+      id: create-tables
+      author: ivan
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: APPLICATIONSPK
+                  name: ID
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: EMAIL
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: FULLNAME
+                  type: VARCHAR(512)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: ISADMITTED
+                  type: BOOLEAN
+              - column:
+                  constraints:
+                    nullable: false
+                  name: SUBMISSIONDATE
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: PROGRAM_ID
+                  type: UUID
+            tableName: APPLICATIONS
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: AUTHORSPK
+                  name: ID
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: NAME
+                  type: VARCHAR(512)
+            tableName: AUTHORS
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: CATEGORIESPK
+                  name: ID
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: NAME
+                  type: VARCHAR(512)
+            tableName: CATEGORIES
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: NEWSPK
+                  name: ID
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: CONTENT
+                  type: VARCHAR(255)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: POSTDATE
+                  type: TIMESTAMP
+              - column:
+                  constraints:
+                    nullable: false
+                  name: TITLE
+                  type: VARCHAR(512)
+              - column:
+                  constraints:
+                    nullable: false
+                  name: AUTHOR_ID
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: CATEGORY_ID
+                  type: UUID
+            tableName: NEWS
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: PROGRAMSPK
+                  name: ID
+                  type: UUID
+              - column:
+                  constraints:
+                    nullable: false
+                  name: NAME
+                  type: VARCHAR(512)
+            tableName: PROGRAMS
+        - addUniqueConstraint:
+            columnNames: EMAIL
+            constraintName: UC_APPLICATIONSEMAIL_COL
+            tableName: APPLICATIONS
+        - createIndex:
+            associatedWith: ''
+            columns:
+              - column:
+                  name: CATEGORY_ID
+            indexName: FK6ITMFJJ4MA8LFPJ10JX24MHVX_INDEX_2
+            tableName: NEWS
+        - createIndex:
+            associatedWith: ''
+            columns:
+              - column:
+                  name: PROGRAM_ID
+            indexName: FKIMSF7JWI61Q534QRAERHMW4MK_INDEX_C
+            tableName: APPLICATIONS
+        - createIndex:
+            associatedWith: ''
+            columns:
+              - column:
+                  name: AUTHOR_ID
+            indexName: FKSE4KP8HPUL3SKS7IOFW87XOR6_INDEX_2
+            tableName: NEWS
+        - addForeignKeyConstraint:
+            baseColumnNames: CATEGORY_ID
+            baseTableName: NEWS
+            constraintName: FK6ITMFJJ4MA8LFPJ10JX24MHVX
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: ID
+            referencedTableName: CATEGORIES
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: PROGRAM_ID
+            baseTableName: APPLICATIONS
+            constraintName: FKIMSF7JWI61Q534QRAERHMW4MK
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: ID
+            referencedTableName: PROGRAMS
+            validate: true
+        - addForeignKeyConstraint:
+            baseColumnNames: AUTHOR_ID
+            baseTableName: NEWS
+            constraintName: FKSE4KP8HPUL3SKS7IOFW87XOR6
+            deferrable: false
+            initiallyDeferred: false
+            onDelete: NO ACTION
+            onUpdate: NO ACTION
+            referencedColumnNames: ID
+            referencedTableName: AUTHORS
+            validate: true

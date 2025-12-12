@@ -6,10 +6,10 @@ import java.time.LocalDateTime
 @Entity
 @Table(name = "applications")
 open class ApplicationEntity(
-    @Column(nullable = false, length = 512) var fullName: String,
+    @Column(name = "full_name", nullable = false, length = 512) var fullName: String,
     @Column(nullable = false, unique = true) var email: String,
-    @Column(nullable = false) var submissionDate: LocalDateTime,
-    @Column(nullable = false) var isAdmitted: Boolean,
+    @Column(name = "submission_date", nullable = false) var submissionDate: LocalDateTime,
+    @Column(name = "is_admitted", nullable = false) var isAdmitted: Boolean,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "program_id", nullable = false)
     var program: ProgramEntity?
 ) : BaseEntity() {

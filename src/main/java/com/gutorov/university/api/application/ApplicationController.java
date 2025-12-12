@@ -1,5 +1,7 @@
 package com.gutorov.university.api.application;
 
+import com.gutorov.university.api.page.PageHelper;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.config.Constants;
 import com.gutorov.university.entity.ApplicationEntity;
 import com.gutorov.university.entity.projection.MonthlyApplications;
@@ -8,6 +10,7 @@ import com.gutorov.university.entity.projection.ProgramApplicationsStats;
 import com.gutorov.university.entity.projection.ProgramPopularity;
 import com.gutorov.university.service.ApplicationService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +29,10 @@ public class ApplicationController {
     }
 
     @GetMapping
-    public List<ApplicationRs> getApplications() {
-        return applicationService.getAll();
+    public PageRs<ApplicationRs> getApplications(
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size) {
+        return applicationService.getAll(PageHelper.toPageable(page, size));
     }
 
     @GetMapping("/{id}")

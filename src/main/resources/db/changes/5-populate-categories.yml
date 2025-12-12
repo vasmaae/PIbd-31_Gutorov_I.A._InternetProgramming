@@ -1,0 +1,32 @@
+databaseChangeLog:
+  - changeSet:
+      id: populate-categories
+      author: ivan
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 0c636ec2-b29f-4968-b392-97618b916fa1
+              - column:
+                  name: NAME
+                  value: Campus
+            tableName: CATEGORIES
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 9e9c5638-c284-4d27-aa79-7482c4553c0e
+              - column:
+                  name: NAME
+                  value: Science
+            tableName: CATEGORIES
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 298ac45c-20c8-4a87-9ed4-8a88ca54c8f7
+              - column:
+                  name: NAME
+                  value: Art
+            tableName: CATEGORIES

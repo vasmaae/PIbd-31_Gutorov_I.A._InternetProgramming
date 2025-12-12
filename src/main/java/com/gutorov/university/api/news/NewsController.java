@@ -1,5 +1,7 @@
 package com.gutorov.university.api.news;
 
+import com.gutorov.university.api.page.PageHelper;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.config.Constants;
 import com.gutorov.university.entity.NewsEntity;
 import com.gutorov.university.entity.projection.MonthlyNews;
@@ -8,6 +10,7 @@ import com.gutorov.university.entity.projection.NewsOverallStats;
 import com.gutorov.university.entity.projection.TopAuthor;
 import com.gutorov.university.service.NewsService;
 import jakarta.validation.Valid;
+import jakarta.validation.constraints.Min;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,8 +29,10 @@ public class NewsController {
     }
 
     @GetMapping
-    public List<NewsRs> getNews() {
-        return newsService.getAll();
+    public PageRs<NewsRs> getNews(
+            @RequestParam(defaultValue = "1") @Min(1) int page,
+            @RequestParam(defaultValue = "10") @Min(1) int size) {
+        return newsService.getAll(PageHelper.toPageable(page, size));
     }
 
     @GetMapping("/{id}")

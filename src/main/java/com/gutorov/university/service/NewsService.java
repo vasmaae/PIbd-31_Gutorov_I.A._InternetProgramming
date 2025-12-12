@@ -2,6 +2,7 @@ package com.gutorov.university.service;
 
 import com.gutorov.university.api.news.NewsRq;
 import com.gutorov.university.api.news.NewsRs;
+import com.gutorov.university.api.page.PageRs;
 import com.gutorov.university.entity.NewsEntity;
 import com.gutorov.university.entity.projection.MonthlyNews;
 import com.gutorov.university.entity.projection.NewsByCategory;
@@ -9,6 +10,7 @@ import com.gutorov.university.entity.projection.NewsOverallStats;
 import com.gutorov.university.entity.projection.TopAuthor;
 import com.gutorov.university.exception.NotFoundException;
 import com.gutorov.university.repository.NewsRepository;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,11 @@ public class NewsService {
     @Transactional(readOnly = true)
     public List<NewsRs> getAll() {
         return NewsRs.fromEntityList(newsRepository.findAll());
+    }
+
+    @Transactional(readOnly = true)
+    public PageRs<NewsRs> getAll(Pageable pageable) {
+        return PageRs.from(newsRepository.findAll(pageable), NewsRs::fromEntity);
     }
 
     @Transactional(readOnly = true)

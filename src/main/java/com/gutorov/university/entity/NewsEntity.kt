@@ -12,7 +12,7 @@ class NewsEntity(
     var category: CategoryEntity?,
     @ManyToOne(fetch = FetchType.LAZY) @JoinColumn(name = "author_id", nullable = false)
     var author: AuthorEntity?,
-    @Column(nullable = false) var postDate: LocalDateTime,
+    @Column(name = "post_date", nullable = false) var postDate: LocalDateTime,
 ) : BaseEntity() {
     constructor() : this("", "", CategoryEntity(), AuthorEntity(), LocalDateTime.MIN)
 

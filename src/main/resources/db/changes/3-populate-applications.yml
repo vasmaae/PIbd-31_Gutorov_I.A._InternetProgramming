@@ -1,0 +1,68 @@
+databaseChangeLog:
+  - changeSet:
+      id: populate-applications
+      author: ivan
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 8a3f539f-e156-474f-8734-31eaabf8cbc9
+              - column:
+                  name: EMAIL
+                  value: ivanov@mail.com
+              - column:
+                  name: PROGRAM_ID
+                  value: c16fef1f-c106-4a66-a073-46d2c622a9d2
+              - column:
+                  name: FULL_NAME
+                  value: Ivan Ivanov
+              - column:
+                  name: IS_ADMITTED
+                  valueBoolean: false
+              - column:
+                  name: SUBMISSION_DATE
+                  valueDate: 2025-09-05T14:30:20
+            tableName: APPLICATIONS
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 237a6f35-9ee4-4e98-9016-9359ae0d7444
+              - column:
+                  name: EMAIL
+                  value: petrov@mail.com
+              - column:
+                  name: PROGRAM_ID
+                  value: b486068a-79c7-4188-abfc-e3b8f90ed26d
+              - column:
+                  name: FULL_NAME
+                  value: Petr Petrov
+              - column:
+                  name: IS_ADMITTED
+                  valueBoolean: true
+              - column:
+                  name: SUBMISSION_DATE
+                  valueDate: 2025-09-05T14:20:30
+            tableName: APPLICATIONS
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 2c9a717c-0103-453d-bff6-0754038f0f99
+              - column:
+                  name: EMAIL
+                  value: vasin@mail.com
+              - column:
+                  name: PROGRAM_ID
+                  value: 9a17d30f-d5bd-4dbb-8756-3500f2290599
+              - column:
+                  name: FULL_NAME
+                  value: Vasiliy Vasin
+              - column:
+                  name: IS_ADMITTED
+                  valueBoolean: false
+              - column:
+                  name: SUBMISSION_DATE
+                  valueDate: 2025-09-05T14:10:40
+            tableName: APPLICATIONS

@@ -1,0 +1,33 @@
+databaseChangeLog:
+  - changeSet:
+      id: populate-programs
+      author: ivan
+      changes:
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: c16fef1f-c106-4a66-a073-46d2c622a9d2
+              - column:
+                  name: NAME
+                  value: Physics
+            tableName: PROGRAMS
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: b486068a-79c7-4188-abfc-e3b8f90ed26d
+              - column:
+                  name: NAME
+                  value: Maths
+            tableName: PROGRAMS
+        - insert:
+            columns:
+              - column:
+                  name: ID
+                  value: 9a17d30f-d5bd-4dbb-8756-3500f2290599
+              - column:
+                  name: NAME
+                  value: Informatics
+            tableName: PROGRAMS
+
