@@ -1,0 +1,14 @@
+logging:
+  level:
+    com:
+      gutorov:
+        university: INFO
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost/university
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false

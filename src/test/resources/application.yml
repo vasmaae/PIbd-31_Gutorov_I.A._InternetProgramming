@@ -1,0 +1,13 @@
+logging:
+  level:
+    com:
+      gutorov:
+        university: DEBUG
+spring:
+  profiles:
+    active: prod
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+  liquibase:
+    enabled: false
