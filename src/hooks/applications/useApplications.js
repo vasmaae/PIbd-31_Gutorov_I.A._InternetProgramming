@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 
 const applicationsUrl = "http://localhost:8080/api/v1.0/applications";
 const programsUrl = "http://localhost:8080/api/v1.0/programs";
@@ -42,8 +42,7 @@ export const useApplications = () => {
                 const programsRes = await fetch(programsUrl);
                 const programsData = await programsRes.json();
                 setPrograms(programsData);
-            } catch (error)
-{
+            } catch (error) {
                 console.error("Ошибка загрузки программ:", error);
             }
         };
@@ -57,7 +56,7 @@ export const useApplications = () => {
 
             await fetch(url, {
                 method: method,
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(applicationData),
             });
             await fetchApplications(pagination.currentPage);
@@ -77,7 +76,7 @@ export const useApplications = () => {
         }
     };
 
-    return { applications, programs, saveApplication, deleteApplication, pagination, fetchApplications, loading };
+    return {applications, programs, saveApplication, deleteApplication, pagination, fetchApplications, loading};
 };
 
 export default useApplications;

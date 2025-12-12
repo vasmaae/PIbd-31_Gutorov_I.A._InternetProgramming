@@ -13,7 +13,7 @@ export const ApplicationsPage = () => {
             fullName: application.fullName,
             email: application.email,
             programId: application.program?.id,
-            isAdmitted: true,
+            admitted: true,
             submissionDate: application.submissionDate
         };
 

@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react";
+import {useCallback, useEffect, useState} from "react";
 
 const newsUrl = "http://localhost:8080/api/v1.0/news";
 const categoryUrl = "http://localhost:8080/api/v1.0/categories";
@@ -70,7 +70,7 @@ export const useNewsData = () => {
 
             await fetch(url, {
                 method: method,
-                headers: { "Content-Type": "application/json" },
+                headers: {"Content-Type": "application/json"},
                 body: JSON.stringify(newsData),
             });
             await fetchNews(pagination.currentPage);
@@ -91,5 +91,5 @@ export const useNewsData = () => {
     };
 
 
-    return { news, categories, authors, loading, error, pagination, fetchNews, saveNews, deleteNews };
+    return {news, categories, authors, loading, error, pagination, fetchNews, saveNews, deleteNews};
 };

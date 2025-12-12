@@ -7,7 +7,6 @@ export const ApplicationForm = ({ application = {}, programs, onSave, onCancel }
         email: application.email || "",
         programId: application.program?.id || "",
         submissionDate: application.submissionDate || new Date().toISOString(),
-
     });
 
     const handleChange = (e) => {

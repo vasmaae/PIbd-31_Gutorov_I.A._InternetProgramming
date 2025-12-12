@@ -17,7 +17,7 @@ const ApplicationItem = ({ application, onEdit, onDelete, onApprove }) => {
                     })}
                 </p>
                 <div className="gap-2 card-text">
-                    {!application.isAdmitted && (
+                    {!application.admitted && (
                         <button
                             className="btn btn-success me-2"
                             onClick={() => {
@@ -29,7 +29,7 @@ const ApplicationItem = ({ application, onEdit, onDelete, onApprove }) => {
                             Одобрить
                         </button>
                     )}
-                    {application.isAdmitted && <span className="text-success fw-bold me-2">✅ Заявка одобрена</span>}
+                    {application.admitted && <span className="text-success fw-bold me-2">✅ Заявка одобрена</span>}
                     <button className="btn btn-primary me-2" onClick={() => onEdit(application)}>
                         Редактировать
                     </button>
