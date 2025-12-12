@@ -3,7 +3,6 @@ package com.gutorov.university.util;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 import org.springframework.web.context.request.RequestAttributes;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -11,9 +10,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import java.net.URI;
 
-@Profile("!front")
 @Component
-class WebHelper {
+public class WebHelper {
     private HttpServletRequest getCurrentRequest() {
         final RequestAttributes requestAttributes = RequestContextHolder.getRequestAttributes();
         if (requestAttributes instanceof ServletRequestAttributes servletRequestAttributes) {

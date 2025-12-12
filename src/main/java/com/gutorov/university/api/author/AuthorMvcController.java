@@ -1,6 +1,8 @@
 package com.gutorov.university.api.author;
 
 import com.gutorov.university.service.AuthorService;
+import com.gutorov.university.util.WebHelper;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -9,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Optional;
 import java.util.UUID;
 
 @Controller
@@ -16,18 +19,23 @@ import java.util.UUID;
 public class AuthorMvcController {
 
     private final AuthorService authorService;
+    private final WebHelper webHelper;
 
-    public AuthorMvcController(AuthorService authorService) {
+    public AuthorMvcController(AuthorService authorService, WebHelper webHelper) {
         this.authorService = authorService;
+        this.webHelper = webHelper;
     }
 
     @GetMapping
     public String listAuthors(Model model,
                               @RequestParam(defaultValue = "0") int page,
-                              @RequestParam(defaultValue = "5") int size) {
-        Pageable pageable = PageRequest.of(page, size);
+                              @RequestParam Optional<Integer> size) {
+        int pageSize = size.orElse(Integer.parseInt(webHelper.getCookie("pageSize", "5")));
+        size.ifPresent(s -> webHelper.setCookie("pageSize", String.valueOf(s)));
+
+        Pageable pageable = PageRequest.of(page, pageSize);
         model.addAttribute("authorsPage", authorService.getAll(pageable));
-        model.addAttribute("pageSize", size);
+        model.addAttribute("pageSize", pageSize);
         return "authors/list";
     }
 
