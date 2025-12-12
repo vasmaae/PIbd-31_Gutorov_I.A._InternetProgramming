@@ -5,9 +5,7 @@ import { useApplications } from "../hooks/applications/useApplications";
 
 export const ApplicationsPage = () => {
     const [editingApplication, setEditingApplication] = useState(null);
-    const { applications, programs, saveApplication, deleteApplication } = useApplications();
-    const [filterProgramId, setFilterProgramId] = useState("");
-    const [filterAdmitted, setFilterAdmitted] = useState(false);
+    const { applications, programs, saveApplication, deleteApplication, pagination, fetchApplications, loading } = useApplications();
 
     const handleApprove = async (application) => {
         const updatedApplication = {
@@ -26,11 +24,9 @@ export const ApplicationsPage = () => {
         }
     };
 
-    const filteredApplications = applications?.filter((item) => {
-        const matchesProgram = filterProgramId ? item.program?.id === filterProgramId : true;
-        const matchesAdmitted = filterAdmitted ? item.isAdmitted === true : true;
-        return matchesProgram && matchesAdmitted;
-    });
+    const handlePageChange = (newPage) => {
+        fetchApplications(newPage);
+    };
 
     return (
         <div className="container my-5">
@@ -38,37 +34,7 @@ export const ApplicationsPage = () => {
             <button className="btn btn-success mb-3" onClick={() => setEditingApplication({})}>
                 Добавить заявку
             </button>
-            <div className="d-flex gap-2 mb-3">
-                <select
-                    className="form-select"
-                    id="applicationsProgram"
-                    name="programId"
-                    required
-                    value={filterProgramId}
-                    onChange={(e) => setFilterProgramId(e.target.value)}
-                >
-                    <option value="">Без фильтра</option>
-                    {programs.map((category) => (
-                        <option key={category.id} value={category.id}>
-                            {category.name}
-                        </option>
-                    ))}
-                </select>
-            </div>
-            <div className="d-flex flex-wrap gap-3 mb-3">
-                <div className="form-check mt-4">
-                    <input
-                        className="form-check-input"
-                        type="checkbox"
-                        id="filterAdmittedCheckbox"
-                        checked={filterAdmitted}
-                        onChange={(e) => setFilterAdmitted(e.target.checked)}
-                    />
-                    <label className="form-check-label" htmlFor="filterAdmittedCheckbox">
-                        Только одобренные
-                    </label>
-                </div>
-            </div>
+
             {editingApplication && (
                 <ApplicationForm
                     application={editingApplication}
@@ -80,13 +46,38 @@ export const ApplicationsPage = () => {
                     onCancel={() => setEditingApplication(null)}
                 />
             )}
-            <ApplicationList
-                applications={filteredApplications}
-                programs={programs}
-                onEdit={setEditingApplication}
-                onDelete={deleteApplication}
-                onApprove={handleApprove}
-            />
+
+            {loading ? (
+                <p>Загрузка...</p>
+            ) : (
+                <ApplicationList
+                    applications={applications}
+                    programs={programs}
+                    onEdit={setEditingApplication}
+                    onDelete={deleteApplication}
+                    onApprove={handleApprove}
+                />
+            )}
+
+            <div className="d-flex justify-content-center align-items-center mt-4">
+                <button
+                    className="btn btn-secondary"
+                    onClick={() => handlePageChange(pagination.currentPage - 1)}
+                    disabled={!pagination.hasPreviousPage}
+                >
+                    Предыдущая
+                </button>
+                <span className="mx-3">
+                    Страница {pagination.currentPage} из {pagination.totalPages}
+                </span>
+                <button
+                    className="btn btn-secondary"
+                    onClick={() => handlePageChange(pagination.currentPage + 1)}
+                    disabled={!pagination.hasNextPage}
+                >
+                    Следующая
+                </button>
+            </div>
         </div>
     );
 };

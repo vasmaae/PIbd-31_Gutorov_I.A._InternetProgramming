@@ -4,7 +4,7 @@
     "description": "",
     "scripts": {
         "start": "vite",
-        "build": "vite build",
+        "build": "vite build --mode prod",
         "serve": "http-server -p 3000 ./dist/",
         "prod": "npm-run-all build serve",
         "lint": "eslint . --ext js --report-unused-disable-directives --max-warnings 0",

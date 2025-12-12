@@ -1,11 +1,27 @@
+import { useState } from "react";
 import { NewsForm } from "../components/News/NewsForm";
 import { NewsList } from "../components/News/NewsList";
-import { useNewsActions } from "../hooks/news/useNewsActions";
 import { useNewsData } from "../hooks/news/useNewsData";
 
 export const NewsPage = () => {
-    const { news, categories, authors, setNews } = useNewsData();
-    const { editingNews, setEditingNews, handleSaveNews, handleDeleteNews, handleEditNews } = useNewsActions(null);
+    const { news, categories, authors, pagination, fetchNews, loading, saveNews, deleteNews } = useNewsData();
+    const [editingNews, setEditingNews] = useState(null);
+
+    const handleSave = (newsData) => {
+        saveNews(newsData);
+        setEditingNews(null);
+    };
+
+    const handleDelete = (id) => {
+        if (confirm("Вы уверены, что хотите удалить эту новость?")) {
+            deleteNews(id);
+        }
+    };
+
+    const handlePageChange = (newPage) => {
+        fetchNews(newPage);
+    };
+
 
     return (
         <div className="d-flex flex-column min-vh-100">
@@ -34,16 +50,40 @@ export const NewsPage = () => {
                                 news={editingNews}
                                 categories={categories}
                                 authors={authors}
-                                onSave={(newsData) => handleSaveNews(newsData, news, setNews)}
+                                onSave={handleSave}
                                 onCancel={() => setEditingNews(null)}
                             />
                         )}
-                        <NewsList
-                            news={news}
-                            onEdit={handleEditNews}
-                            onDelete={(id) => handleDeleteNews(id, news, setNews)}
-                        />
+                        {loading ? (
+                            <p>Загрузка...</p>
+                        ) : (
+                            <NewsList
+                                news={news}
+                                onEdit={setEditingNews}
+                                onDelete={handleDelete}
+                            />
+                        )}
                     </section>
+
+                    <div className="d-flex justify-content-center align-items-center mt-4">
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => handlePageChange(pagination.currentPage - 1)}
+                            disabled={!pagination.hasPreviousPage}
+                        >
+                            Предыдущая
+                        </button>
+                        <span className="mx-3">
+                            Страница {pagination.currentPage} из {pagination.totalPages}
+                        </span>
+                        <button
+                            className="btn btn-secondary"
+                            onClick={() => handlePageChange(pagination.currentPage + 1)}
+                            disabled={!pagination.hasNextPage}
+                        >
+                            Следующая
+                        </button>
+                    </div>
                 </div>
             </main>
         </div>

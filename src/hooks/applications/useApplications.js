@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 
 const applicationsUrl = "http://localhost:8080/api/v1.0/applications";
 const programsUrl = "http://localhost:8080/api/v1.0/programs";
@@ -6,37 +6,49 @@ const programsUrl = "http://localhost:8080/api/v1.0/programs";
 export const useApplications = () => {
     const [applications, setApplications] = useState([]);
     const [programs, setPrograms] = useState([]);
+    const [pagination, setPagination] = useState({
+        currentPage: 1,
+        totalPages: 1,
+        totalItems: 0,
+        hasNextPage: false,
+        hasPreviousPage: false,
+    });
+    const [loading, setLoading] = useState(false);
 
-    useEffect(() => {
-        const fetchApplications = async () => {
-            try {
-                const [applicationsRes, programsRes] = await Promise.all([fetch(applicationsUrl), fetch(programsUrl)]);
-                const applicationsData = await applicationsRes.json();
-                const programsData = await programsRes.json();
-                setApplications(
-                    applicationsData.sort((a, b) => new Date(b.submissionDate) - new Date(a.submissionDate))
-                );
-                setPrograms(programsData);
-            } catch (error) {
-                console.error("Ошибка загрузки заявок:", error);
-            }
-        };
-        fetchApplications();
-    }, []);
-
-    const fetchApplications = async () => {
+    const fetchApplications = useCallback(async (page = 1, size = 5) => {
+        setLoading(true);
         try {
-            const [applicationsRes, programsRes] = await Promise.all([fetch(applicationsUrl), fetch(programsUrl)]);
-            const applicationsData = await applicationsRes.json();
-            const programsData = await programsRes.json();
-            setApplications(
-                applicationsData.sort((a, b) => new Date(b.submissionDate) - new Date(a.submissionDate))
-            );
-            setPrograms(programsData);
+            const response = await fetch(`${applicationsUrl}?page=${page}&size=${size}`);
+            const data = await response.json();
+            setApplications(data.items);
+            setPagination({
+                currentPage: data.currentPage,
+                totalPages: data.totalPages,
+                totalItems: data.totalItems,
+                hasNextPage: data.hasNextPage,
+                hasPreviousPage: data.hasPreviousPage,
+            });
         } catch (error) {
             console.error("Ошибка загрузки заявок:", error);
+        } finally {
+            setLoading(false);
         }
-    };
+    }, []);
+
+    useEffect(() => {
+        fetchApplications();
+        const fetchPrograms = async () => {
+            try {
+                const programsRes = await fetch(programsUrl);
+                const programsData = await programsRes.json();
+                setPrograms(programsData);
+            } catch (error)
+{
+                console.error("Ошибка загрузки программ:", error);
+            }
+        };
+        fetchPrograms();
+    }, [fetchApplications]);
 
     const saveApplication = async (applicationData) => {
         try {
@@ -48,7 +60,7 @@ export const useApplications = () => {
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(applicationData),
             });
-            await fetchApplications();
+            await fetchApplications(pagination.currentPage);
         } catch (error) {
             console.error("Ошибка сохранения заявки:", error);
         }
@@ -59,13 +71,13 @@ export const useApplications = () => {
             await fetch(`${applicationsUrl}/${id}`, {
                 method: "DELETE",
             });
-            setApplications(applications.filter((item) => item.id !== id));
+            await fetchApplications(pagination.currentPage);
         } catch (error) {
             console.error("Ошибка удаления заявки:", error);
         }
     };
 
-    return { applications, programs, saveApplication, deleteApplication };
+    return { applications, programs, saveApplication, deleteApplication, pagination, fetchApplications, loading };
 };
 
 export default useApplications;
