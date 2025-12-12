@@ -8,6 +8,7 @@ export const useNewsData = () => {
     const [news, setNews] = useState([]);
     const [categories, setCategories] = useState([]);
     const [authors, setAuthors] = useState([]);
+    const [pageSize, setPageSize] = useState(5);
     const [pagination, setPagination] = useState({
         currentPage: 1,
         totalPages: 1,
@@ -18,10 +19,10 @@ export const useNewsData = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(null);
 
-    const fetchNews = useCallback(async (page = 1, size = 5) => {
+    const fetchNews = useCallback(async (page = 1) => {
         setLoading(true);
         try {
-            const response = await fetch(`${newsUrl}?page=${page}&size=${size}`);
+            const response = await fetch(`${newsUrl}?page=${page}&size=${pageSize}`);
             const data = await response.json();
             setNews(data.items);
             setPagination({
@@ -37,10 +38,10 @@ export const useNewsData = () => {
         } finally {
             setLoading(false);
         }
-    }, []);
+    }, [pageSize]);
 
     useEffect(() => {
-        fetchNews();
+        fetchNews(1);
 
         const fetchMeta = async () => {
             try {
@@ -91,5 +92,5 @@ export const useNewsData = () => {
     };
 
 
-    return {news, categories, authors, loading, error, pagination, fetchNews, saveNews, deleteNews};
+    return {news, categories, authors, loading, error, pagination, fetchNews, saveNews, deleteNews, pageSize, setPageSize};
 };

@@ -4,7 +4,7 @@ import { NewsList } from "../components/News/NewsList";
 import { useNewsData } from "../hooks/news/useNewsData";
 
 export const NewsPage = () => {
-    const { news, categories, authors, pagination, fetchNews, loading, saveNews, deleteNews } = useNewsData();
+    const { news, categories, authors, pagination, fetchNews, loading, saveNews, deleteNews, pageSize, setPageSize } = useNewsData();
     const [editingNews, setEditingNews] = useState(null);
 
     const handleSave = (newsData) => {
@@ -20,6 +20,10 @@ export const NewsPage = () => {
 
     const handlePageChange = (newPage) => {
         fetchNews(newPage);
+    };
+
+    const handlePageSizeChange = (e) => {
+        setPageSize(parseInt(e.target.value, 10));
     };
 
 
@@ -83,6 +87,21 @@ export const NewsPage = () => {
                         >
                             Следующая
                         </button>
+                        <div className="ms-4">
+                            <label htmlFor="pageSizeSelect" className="form-label me-2">
+                                Новостей на странице:
+                            </label>
+                            <select
+                                id="pageSizeSelect"
+                                className="form-select w-auto d-inline-block"
+                                value={pageSize}
+                                onChange={handlePageSizeChange}
+                            >
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="15">15</option>
+                            </select>
+                        </div>
                     </div>
                 </div>
             </main>
